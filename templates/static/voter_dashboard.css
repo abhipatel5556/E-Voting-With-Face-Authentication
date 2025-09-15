@@ -1,0 +1,73 @@
+/* Voter Dashboard (page-specific) */
+/* Typography override to Poppins for this page */
+body {
+    font-family: "Poppins", var(--font-sans)
+    }
+/* Adjust main layout to accommodate the sidebar comfortably */
+#mainContent {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-6)
+    }
+/* Election cards visual state when already voted */
+.election-card-voted {
+    opacity: 0.88
+    }
+.election-card-voted .card-header {
+    background: var(--success-soft)
+    }
+/* Tabs: keep sticky feel within view for quick switching */
+@media (min-width: 992px) {
+    #electionTabs {
+        position: sticky;
+        top: 68px;
+        z-index: 6;
+        background: transparent
+        }
+    }
+/* Improve small badges inside soft backgrounds */
+.badge.bg-success-subtle {
+    color: var(--color-success) !important
+    }
+.badge.bg-warning-subtle {
+    color: var(--color-warning) !important
+    }
+.badge.bg-info-subtle {
+    color: var(--color-info) !important
+    }
+/* Sidebar overrides remain as provided in Common Component CSS; ensure stacking on mobile when shown */
+@media (max-width: 991.98px) {
+    #appSidebarVoter.show {
+        position: fixed;
+        top: 56px;
+        left: 0;
+        bottom: 0;
+        z-index: 1050;
+        overflow-y: auto;
+        box-shadow: var(--shadow-2)
+        }
+    }
+/* Toast container spacing on mobile */
+@media (max-width: 575.98px) {
+    .toast-container {
+        width: 100%;
+        left: 0;
+        right: 0
+        }
+    }
+/* Chart canvas sizing */
+#participationChart {
+    max-height: 220px
+    }
+/* History table header cursor */
+#historyTable thead th.sortable {
+    cursor: pointer
+    }
+/* Helper for anchors to avoid being hidden under sticky header */
+#active, #completed {
+    scroll-margin-top: 80px
+    }
+/* Ensure nav-tabs integrate with card below (no double borders) */
+.nav-tabs + .card {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0
+    }

@@ -1,0 +1,140 @@
+:root {
+    --vm-sidebar-width: 260px;
+    --vm-header-height: auto
+    }
+/* Use Poppins as primary font */
+:root {
+    --font-sans: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
+    }
+/* Layout helpers to ensure sidebar + main fit nicely */
+.app-header-admin {
+    background: #6144a6;
+    color: #fff
+    }
+.app-header-admin .navbar-brand, .app-header-admin .nav-link, .app-header-admin .dropdown-toggle {
+    color: #fff
+    }
+.app-header-admin .form-control:focus {
+    box-shadow: none;
+    border-color: #ddd
+    }
+.notif-dot {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    background: #dc3545;
+    border-radius: 50%
+    }
+.app-sidebar-admin {
+    width: var(--vm-sidebar-width);
+    background: #fff;
+    border-right: 1px solid #eee;
+    min-height: 100vh
+    }
+.app-sidebar-admin .brand {
+    border-bottom: 1px solid #eee
+    }
+.app-sidebar-admin .nav-link {
+    color: #444;
+    border-radius: 0.35rem;
+    padding: 0.5rem 0.75rem
+    }
+.app-sidebar-admin .nav-link .fa-fw {
+    width: 1.25rem
+    }
+.app-sidebar-admin .nav-link:hover {
+    background: rgba(97, 68, 166, 0.08)
+    }
+.app-sidebar-admin .nav-link.active {
+    background: rgba(97, 68, 166, 0.14);
+    border-left: 4px solid #6144a6
+    }
+.app-sidebar-admin .section-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: #888
+    }
+.app-sidebar-admin .submenu .nav-link {
+    padding-left: 2rem
+    }
+@media (max-width: 991.98px) {
+    .app-sidebar-admin {
+        display: none
+        }
+    }
+/* Keep main content from touching edges when sidebar present */
+@media (min-width: 992px) {
+    .main-panel {
+        padding-left: var(--space-6)
+        }
+    }
+/* Data table specific tweaks */
+#votersTable thead th {
+    user-select: none;
+    cursor: default
+    }
+#votersTable thead th.sortable {
+    cursor: pointer
+    }
+#votersTable tbody tr.alarm {
+    animation: bounceSoft 1.2s ease-in-out infinite
+    }
+#votersTable tbody tr:hover {
+    background: rgba(0, 0, 0, 0.02)
+    }
+/* Loading overlay */
+.loading-overlay {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    border-top: 1px solid var(--border-color)
+    }
+/* Buttons spacing in table */
+#votersTable .btn {
+    min-width: 32px
+    }
+/* Modal image */
+#voterFaceImg {
+    max-height: 320px;
+    object-fit: cover
+    }
+/* Status tabs spacing */
+#statusTabs .nav-link {
+    border: none;
+    border-bottom: 2px solid transparent
+    }
+#statusTabs .nav-link.active {
+    border-bottom-color: var(--color-primary)
+    }
+/* Card tweaks */
+.card .card-header .widget-title {
+    font-weight: 600
+    }
+/* Toast color override to match brand */
+/* Pagination dots spacing fix */
+.pagination .page-item.disabled .page-link {
+    color: var(--text-muted)
+    }
+/* Metric cards center text sizes */
+.metric-card .metric-title {
+    letter-spacing: 0.04em
+    }
+/* Accessibility focus */
+.sortable:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring)
+    }
+/* Responsive tweaks */
+@media (max-width: 575.98px) {
+    #tableSubtitle {
+        display: none
+        }
+    .metric-card .metric-value {
+        font-size: 1.5rem
+        }
+    }

@@ -1,0 +1,55 @@
+/* Elections List (page-specific) */
+:root {
+    /* Focus ring harmonized with theme */
+    --focus-ring: 0 0 0 3px rgba(97, 68, 166, 0.25)
+    }
+/* Ensure main content respects fixed sidebar on large screens */
+.with-sidebar {
+    padding-left: 1rem;
+    padding-right: 1rem
+    }
+@media (min-width: 992px) {
+    .with-sidebar {
+        margin-left: 260px;
+        /* matches .app-sidebar-admin width */
+        }
+    }
+/* Page header alignment and spacing */
+.page-header .page-title {
+    margin-bottom: 0
+    }
+/* Sortable column affordance */
+#electionsTable thead th.sortable {
+    user-select: none
+    }
+#electionsTable thead th.sortable:hover {
+    background: var(--neutral-soft)
+    }
+/* Dropdown in actions cell */
+#electionsTable td .dropdown-toggle {
+    min-width: 96px
+    }
+/* Chart card polish */
+#statusChart {
+    max-width: 100%
+    }
+/* Tabs to use theme primary when active (inherits from global) */
+#statusTabs .nav-link.active {
+    border-bottom-color: var(--color-primary);
+    color: var(--text-strong)
+    }
+/* System feedback spacing */
+#systemFeedback .alert {
+    margin: 0
+    }
+/* Make skeleton rows less tall */
+.loading-row td {
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem
+    }
+/* Responsive adjustments for controls */
+@media (max-width: 767.98px) {
+    #pageSize {
+        display: none
+        }
+    }

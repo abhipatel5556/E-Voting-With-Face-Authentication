@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Admin Results • FaceID Voting
+  </title>
+  <!-- Poppins Typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Font Awesome 6 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+   <!-- Theme CSS -->
+   <link href="static/style.css" rel="stylesheet"/>
+   <!-- Page-specific CSS -->
+   <link href="static/admin_results.css" rel="stylesheet"/>
+  </link>
+ </head>
+ <body class="d-flex flex-column min-vh-100">
+  <!-- Admin Header (used on admin pages like results) -->
+  <nav class="navbar navbar-expand-lg app-header-admin shadow-sm">
+   <div class="container-fluid">
+    <button aria-controls="appSidebarAdmin" aria-expanded="false" aria-label="Toggle sidebar" class="btn btn-outline-light d-lg-none me-2" data-bs-target="#appSidebarAdmin" data-bs-toggle="collapse" type="button">
+     <i class="fa-solid fa-bars">
+     </i>
+    </button>
+    <a class="navbar-brand d-flex align-items-center" href="./admin_dashboard.html">
+     <img alt="Logo" class="me-2" onerror="this.src='https://picsum.photos/seed/faceidlogo/56/28'" src="https://dsaishared.blob.core.windows.net/uxcceleratecontainer/projects/68bd9542e1229daa603ec466/logos/logo_94009328-59f7-426f-bafe-3182305ed5e5.webp" style="height:28px;"/>
+     Admin Console
+    </a>
+    <button aria-controls="adminNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#adminNav" data-bs-toggle="collapse" type="button">
+     <span class="navbar-toggler-icon">
+     </span>
+    </button>
+    <div class="collapse navbar-collapse" id="adminNav">
+     <form action="./elections_list.html" class="d-none d-md-flex ms-auto me-3" role="search">
+      <div class="input-group input-group-sm">
+       <span class="input-group-text">
+        <i class="fa-solid fa-magnifying-glass">
+        </i>
+       </span>
+       <input aria-label="Search" class="form-control" name="q" placeholder="Search elections or voters" type="search"/>
+      </div>
+     </form>
+     <ul class="navbar-nav align-items-center">
+      <li class="nav-item me-2 d-none d-md-block">
+       <a class="btn btn-light btn-sm" href="./election_creation.html">
+        <i class="fa-solid fa-plus me-1">
+        </i>
+        Create Election
+       </a>
+      </li>
+      <li class="nav-item me-2 position-relative">
+       <a aria-label="Notifications" class="nav-link" href="#">
+        <i class="fa-regular fa-bell">
+        </i>
+        <span class="notif-dot">
+        </span>
+       </a>
+      </li>
+      <li class="nav-item dropdown">
+       <a aria-expanded="false" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" href="#" id="adminProfileMenu" role="button">
+        <img alt="Avatar" class="rounded-circle me-2" src="https://www.gravatar.com/avatar?d=mp&amp;s=40" style="width:28px;height:28px"/>
+        <span>
+         Alex Smith
+        </span>
+       </a>
+       <ul class="dropdown-menu dropdown-menu-end">
+        <li>
+         <h6 class="dropdown-header">
+          Administrator
+         </h6>
+        </li>
+        <li>
+         <a class="dropdown-item" href="#" onclick="return false;">
+          <i class="fa-solid fa-gear me-2">
+          </i>
+          Settings
+         </a>
+        </li>
+        <li>
+         <a class="dropdown-item" href="#" onclick="return false;">
+          <i class="fa-solid fa-book-open-reader me-2">
+          </i>
+          Admin Guide
+         </a>
+        </li>
+        <li>
+         <hr class="dropdown-divider"/>
+        </li>
+        <li>
+         <a class="dropdown-item" href="./index.html">
+          <i class="fa-solid fa-right-from-bracket me-2">
+          </i>
+          Logout
+         </a>
+        </li>
+       </ul>
+      </li>
+     </ul>
+    </div>
+   </div>
+  </nav>
+  <div class="flex-grow-1 d-flex admin-content">
+   <!-- Left Sidebar (admin pages) -->
+   <aside class="app-sidebar-admin d-none d-lg-block" id="appSidebarAdmin">
+    <div class="brand d-flex align-items-center p-3">
+     <a class="text-decoration-none d-flex align-items-center" href="./admin_dashboard.html">
+      <img alt="Logo" class="me-2" onerror="this.src='https://picsum.photos/seed/faceidlogo/52/26'" src="https://dsaishared.blob.core.windows.net/uxcceleratecontainer/projects/68bd9542e1229daa603ec466/logos/logo_94009328-59f7-426f-bafe-3182305ed5e5.webp" style="height:26px"/>
+      <span class="fw-semibold text-dark">
+       Admin Console
+      </span>
+     </a>
+    </div>
+    <div class="p-3">
+     <div class="d-flex align-items-center mb-3">
+      <img alt="Admin Avatar" class="rounded-circle me-2" src="https://www.gravatar.com/avatar?d=mp&amp;s=64" style="width:40px;height:40px"/>
+      <div>
+       <div class="fw-semibold" id="adminName">
+        Alex Smith
+       </div>
+       <div class="text-muted small">
+        Administrator
+       </div>
+      </div>
+     </div>
+     <div class="mb-2 section-title text-uppercase">
+      Overview
+     </div>
+     <ul class="nav flex-column mb-3">
+      <li class="nav-item">
+       <a class="nav-link" href="./admin_dashboard.html">
+        <i class="fa-solid fa-gauge-high fa-fw me-2">
+        </i>
+        Dashboard
+       </a>
+      </li>
+     </ul>
+     <div class="mb-2 section-title text-uppercase">
+      Elections
+     </div>
+     <ul class="nav flex-column mb-1">
+      <li class="nav-item">
+       <a class="nav-link" href="./elections_list.html">
+        <i class="fa-solid fa-list-check fa-fw me-2">
+        </i>
+        All Elections
+       </a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link" href="./election_creation.html">
+        <i class="fa-solid fa-plus fa-fw me-2">
+        </i>
+        Create New
+       </a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link" href="./election_monitoring.html">
+        <i class="fa-solid fa-signal fa-fw me-2">
+        </i>
+        Active &amp; Monitoring
+       </a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link active" href="./admin_results.html">
+        <i class="fa-solid fa-chart-column fa-fw me-2">
+        </i>
+        Completed &amp; Results
+       </a>
+      </li>
+     </ul>
+     <div class="mb-2 section-title text-uppercase mt-3">
+      Voters
+     </div>
+     <ul class="nav flex-column mb-3">
+      <li class="nav-item">
+       <a class="nav-link" href="./voter_management.html">
+        <i class="fa-solid fa-users fa-fw me-2">
+        </i>
+        Manage Voters
+       </a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link" href="./voter_management.html?status=pending">
+        <i class="fa-solid fa-user-check fa-fw me-2">
+        </i>
+        Pending Approvals
+       </a>
+      </li>
+     </ul>
+     <div class="mb-2 section-title text-uppercase">
+      Resources
+     </div>
+     <ul class="nav flex-column">
+      <li class="nav-item">
+       <a class="nav-link" href="./admin_guide.html" onclick="return false;">
+        <i class="fa-solid fa-book-open-reader fa-fw me-2">
+        </i>
+        Admin Guide
+       </a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link" href="./privacy.html">
+        <i class="fa-solid fa-shield-halved fa-fw me-2">
+        </i>
+        Privacy
+       </a>
+      </li>
+     </ul>
+    </div>
+   </aside>
+   <!-- Main Content -->
+   <main class="admin-main flex-grow-1">
+    <div class="container-fluid py-3 py-lg-4">
+     <!-- Breadcrumb -->
+     <nav aria-label="breadcrumb" class="breadcrumb mb-2">
+      <ol class="breadcrumb m-0">
+       <li class="breadcrumb-item">
+        <a href="./elections_list.html">
+         <i class="fa-solid fa-list-check me-1">
+         </i>
+         Elections
+        </a>
+       </li>
+       <li aria-current="page" class="breadcrumb-item active">
+        Results
+       </li>
+      </ol>
+     </nav>
+     <!-- Feedback / Alerts container -->
+     <div class="mb-3" id="alertContainer">
+     </div>
+     <!-- Results Header -->
+     <section class="app-card mb-3" id="resultsHeader">
+      <div class="card-header">
+       <div class="d-flex align-items-center gap-3">
+        <div class="icon bg-primary-soft rounded p-2 text-primary">
+         <i class="fa-solid fa-chart-column">
+         </i>
+        </div>
+        <div>
+         <h1 class="h4 mb-0" id="electionTitle">
+          2024 Student Council Election
+         </h1>
+         <small class="text-muted" id="electionDates">
+          Mar 10, 2024 — Mar 12, 2024
+         </small>
+        </div>
+       </div>
+       <div class="d-flex align-items-center gap-2">
+        <span class="badge-soft error" id="publicationBadge">
+         <i class="fa-solid fa-lock me-1">
+         </i>
+         <span class="status-text">
+          Unpublished
+         </span>
+        </span>
+        <a class="btn btn-light btn-sm" href="#breakdown">
+         <i class="fa-solid fa-arrow-down me-1">
+         </i>
+         Jump to Breakdown
+        </a>
+       </div>
+      </div>
+      <div class="card-body py-3">
+       <div class="text-muted small">
+        Status indicates if the results have been published to voters.
+       </div>
+      </div>
+     </section>
+     <!-- Loading State (hidden after data load) -->
+     <div class="loading-state app-card mb-3" id="loadingState">
+      <div class="skeleton" style="height:18px;width:40%">
+      </div>
+      <div class="skeleton" style="height:12px;width:60%">
+      </div>
+      <div class="grid auto-fit-md mt-2" style="width:100%">
+       <div class="skeleton" style="height:90px">
+       </div>
+       <div class="skeleton" style="height:90px">
+       </div>
+       <div class="skeleton" style="height:90px">
+       </div>
+       <div class="skeleton" style="height:90px">
+       </div>
+      </div>
+     </div>
+     <!-- Results Dashboard: Key Metrics -->
+     <section class="mb-3" hidden="" id="resultsDashboard">
+      <div class="grid auto-fit-lg">
+       <div class="metric-card">
+        <div class="metric-title">
+         Total Eligible Voters
+        </div>
+        <div class="metric-value">
+         1,200
+        </div>
+        <div class="text-muted">
+         Registered and eligible
+        </div>
+       </div>
+       <div class="metric-card">
+        <div class="metric-title">
+         Total Ballots Cast
+        </div>
+        <div class="metric-value">
+         946
+        </div>
+        <div class="text-muted">
+         During Mar 10–12, 2024
+        </div>
+       </div>
+       <div class="metric-card">
+        <div class="metric-title">
+         Voter Turnout
+        </div>
+        <div class="metric-value text-success">
+         78.8%
+        </div>
+        <div class="text-muted">
+         946 of 1,200 eligible
+        </div>
+       </div>
+       <div class="metric-card">
+        <div class="metric-title">
+         Invalid/Spoiled Ballots
+        </div>
+        <div class="metric-value text-warning">
+         12
+        </div>
+        <div class="text-muted">
+         1.3% of ballots cast
+        </div>
+       </div>
+       <div class="metric-card">
+        <div class="metric-title">
+         Declared Winner
+        </div>
+        <div class="d-flex align-items-center gap-2">
+         <img alt="Winner" class="avatar" onerror="this.src='https://picsum.photos/id/1027/56/56'" src="https://picsum.photos/seed/jordan/56/56"/>
+         <div>
+          <div class="metric-value">
+           Jordan Kim
+          </div>
+          <div class="text-muted">
+           482 votes (51.6% of valid)
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section>
+     <!-- Results Breakdown: Tabs for Chart and Table -->
+     <section class="app-card" id="breakdown">
+      <div class="card-header">
+       <div class="d-flex align-items-center gap-2">
+        <i class="fa-solid fa-chart-pie text-primary">
+        </i>
+        <div class="widget-title m-0">
+         Results Breakdown
+        </div>
+       </div>
+       <ul class="nav nav-tabs" id="resultsTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+         <button aria-controls="tab-chart" aria-selected="true" class="nav-link active" data-bs-target="#tab-chart" data-bs-toggle="tab" id="chart-tab" role="tab" type="button">
+          <i class="fa-solid fa-chart-simple me-1">
+          </i>
+          Chart
+         </button>
+        </li>
+        <li class="nav-item" role="presentation">
+         <button aria-controls="tab-table" aria-selected="false" class="nav-link" data-bs-target="#tab-table" data-bs-toggle="tab" id="table-tab" role="tab" type="button">
+          <i class="fa-solid fa-table-list me-1">
+          </i>
+          Table
+         </button>
+        </li>
+       </ul>
+      </div>
+      <div class="card-body">
+       <div class="tab-content">
+        <!-- Chart Tab -->
+        <div aria-labelledby="chart-tab" class="tab-pane fade show active" id="tab-chart" role="tabpanel" tabindex="0">
+         <div class="row g-3 align-items-stretch">
+          <div class="col-12 col-lg-7">
+           <div class="card bg-surface border h-100">
+            <div class="card-header">
+             <strong>
+              Vote Distribution (Valid Votes)
+             </strong>
+            </div>
+            <div class="card-body">
+             <canvas aria-label="Vote distribution chart" height="220" id="resultsChart">
+             </canvas>
+            </div>
+           </div>
+          </div>
+          <div class="col-12 col-lg-5">
+           <div class="card bg-surface border h-100">
+            <div class="card-header">
+             <strong>
+              Summary
+             </strong>
+            </div>
+            <div class="card-body">
+             <ul class="list-unstyled m-0">
+              <li class="d-flex justify-content-between py-1 border-bottom">
+               <span>
+                Valid Votes
+               </span>
+               <span class="fw-semibold" id="validVotesLabel">
+                934
+               </span>
+              </li>
+              <li class="d-flex justify-content-between py-1 border-bottom">
+               <span>
+                Invalid/Spoiled
+               </span>
+               <span class="fw-semibold text-warning">
+                12
+               </span>
+              </li>
+              <li class="d-flex justify-content-between py-1">
+               <span>
+                Total Ballots
+               </span>
+               <span class="fw-semibold">
+                946
+               </span>
+              </li>
+             </ul>
+             <div class="alert alert-info mt-3 mb-0 small">
+              <i class="fa-regular fa-circle-question me-1">
+              </i>
+              Percentages are calculated from valid votes only.
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <!-- Table Tab -->
+        <div aria-labelledby="table-tab" class="tab-pane fade" id="tab-table" role="tabpanel" tabindex="0">
+         <div class="d-flex flex-wrap align-items-center justify-content-between mb-2 gap-2">
+          <div class="input-group input-group-sm" style="max-width:320px">
+           <span class="input-group-text">
+            <i class="fa-solid fa-filter">
+            </i>
+           </span>
+           <input class="form-control" id="filterInput" placeholder="Filter by candidate name..." type="text"/>
+          </div>
+          <div class="text-muted small" id="paginationInfo">
+           Page 1 of 2
+          </div>
+         </div>
+         <div class="table-responsive">
+          <table class="table table-theme table-hover-reveal" id="resultsTable">
+           <thead>
+            <tr>
+             <th aria-sort="none" class="sortable" data-sort="candidate" role="button">
+              Candidate
+              <i class="fa-solid fa-sort ms-1">
+              </i>
+             </th>
+             <th aria-sort="descending" class="sortable text-end" data-sort="votes" role="button">
+              Votes Received
+              <i class="fa-solid fa-sort ms-1">
+              </i>
+             </th>
+             <th aria-sort="none" class="sortable text-end" data-sort="percentage" role="button">
+              % of Valid
+              <i class="fa-solid fa-sort ms-1">
+              </i>
+             </th>
+            </tr>
+           </thead>
+           <tbody id="resultsTbody">
+            <!-- Rows injected by JS -->
+           </tbody>
+          </table>
+         </div>
+         <nav class="d-flex align-items-center justify-content-between mt-2">
+          <div class="small text-muted">
+           Showing
+           <span id="rangeLabel">
+            1–5
+           </span>
+           of
+           <span id="totalRows">
+            6
+           </span>
+           candidates
+          </div>
+          <ul class="pagination pagination-sm mb-0">
+           <li class="page-item">
+            <a aria-label="Previous" class="page-link" href="#" id="prevPage">
+             <span aria-hidden="true">
+              «
+             </span>
+            </a>
+           </li>
+           <li class="page-item">
+            <a aria-label="Next" class="page-link" href="#" id="nextPage">
+             <span aria-hidden="true">
+              »
+             </span>
+            </a>
+           </li>
+          </ul>
+         </nav>
+        </div>
+       </div>
+      </div>
+     </section>
+    </div>
+   </main>
+  </div>
+  <!-- Action Toolbar (sticky) -->
+  <div class="action-toolbar shadow">
+   <button class="btn btn-success" id="publishBtn">
+    <i class="fa-solid fa-bullhorn me-1">
+    </i>
+    Publish Results
+   </button>
+   <button class="btn btn-light" id="downloadBtn">
+    <i class="fa-solid fa-file-arrow-down me-1">
+    </i>
+    Download Report
+   </button>
+  </div>
+  <!-- Admin Footer -->
+  <footer class="app-footer-admin py-3 mt-auto">
+   <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
+    <div class="mb-2 mb-md-0">
+     <a class="btn btn-outline-secondary btn-sm me-2" href="./election_creation.html">
+      <i class="fa-solid fa-plus me-1">
+      </i>
+      Create Election
+     </a>
+     <a class="btn btn-outline-secondary btn-sm" href="./voter_management.html">
+      <i class="fa-solid fa-users me-1">
+      </i>
+      Manage Voters
+     </a>
+    </div>
+    <div class="d-flex align-items-center">
+     <img alt="Logo" class="me-2" onerror="this.src='https://picsum.photos/seed/faceidfooter/36/18'" src="https://dsaishared.blob.core.windows.net/uxcceleratecontainer/projects/68bd9542e1229daa603ec466/logos/logo_94009328-59f7-426f-bafe-3182305ed5e5.webp" style="height:18px"/>
+     <small class="me-3">
+      © 2025 FaceID Voting
+     </small>
+     <a class="small me-3" href="./terms.html">
+      Terms
+     </a>
+     <a class="small" href="./privacy.html">
+      Privacy
+     </a>
+    </div>
+   </div>
+  </footer>
+  <!-- Toast Container -->
+  <div class="position-fixed top-0 end-0 p-3" style="z-index: 1080">
+   <div aria-atomic="true" aria-live="polite" class="toast align-items-center text-bg-primary border-0" id="appToast" role="status">
+    <div class="d-flex">
+     <div class="toast-body" id="toastMessage">
+      Action completed.
+     </div>
+     <button aria-label="Close" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" type="button">
+     </button>
+    </div>
+   </div>
+  </div>
+  <!-- JS Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+  </script>
+  <script>
+   // Mock data for this page
+const isInitiallyPublished = false; // toggle to true to preview published state
+const election = {
+    title: '2024 Student Council Election',
+    start: 'Mar 10, 2024',
+    end: 'Mar 12, 2024',
+    ballotsCast: 946,
+    invalid: 12,
+    eligible: 1200,
+    candidates: [{
+        name: 'Jordan Kim',
+        votes: 482,
+        photo: 'https://picsum.photos/seed/jordan/64/64'
+    }, {
+        name: 'Casey Lee',
+        votes: 401,
+        photo: 'https://picsum.photos/seed/casey/64/64'
+    }, {
+        name: 'Morgan Patel',
+        votes: 29,
+        photo: 'https://picsum.photos/seed/morgan/64/64'
+    }, {
+        name: 'Taylor Brooks',
+        votes: 12,
+        photo: 'https://picsum.photos/seed/taylor/64/64'
+    }, {
+        name: 'Write-ins',
+        votes: 10,
+        photo: 'https://picsum.photos/seed/writeins/64/64'
+    }, {
+        name: 'Riley Chen',
+        votes: 0,
+        photo: 'https://picsum.photos/seed/riley/64/64'
+    }]
+};
+
+let isPublished = isInitiallyPublished;
+let resultsChart;
+
+// Utility: format number with commas
+const fmt = (n) => n.toLocaleString();
+
+// Initialize on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Apply header data
+    document.getElementById('electionTitle').textContent = election.title;
+    document.getElementById('electionDates').textContent = `${election.start} — ${election.end}`;
+
+    // Publication badge + button state
+    updatePublicationUI();
+
+    // Simulate loading state for metrics
+    setTimeout(() => {
+        document.getElementById('loadingState').hidden = true;
+        document.getElementById('resultsDashboard').hidden = false;
+        initChart();
+        initTable();
+    }, 700);
+
+    // Actions
+    document.getElementById('publishBtn').addEventListener('click', onPublish);
+    document.getElementById('downloadBtn').addEventListener('click', onDownload);
+
+    // Table interactions
+    document.getElementById('filterInput').addEventListener('input', onFilterChange);
+    document.getElementById('prevPage').addEventListener('click', (e) => {
+        e.preventDefault();
+        changePage(-1);
+    });
+    document.getElementById('nextPage').addEventListener('click', (e) => {
+        e.preventDefault();
+        changePage(1);
+    });
+    document.querySelectorAll('#resultsTable thead th.sortable').forEach(th => {
+        th.addEventListener('click', () => setSort(th.dataset.sort));
+    });
+});
+
+function updatePublicationUI() {
+    const badge = document.getElementById('publicationBadge');
+    const publishBtn = document.getElementById('publishBtn');
+    const statusText = badge.querySelector('.status-text');
+    if (isPublished) {
+        badge.classList.remove('error');
+        badge.classList.add('success');
+        badge.innerHTML = '<i class="fa-solid fa-unlock me-1"></i><span class="status-text">Published</span>';
+        publishBtn.classList.add('disabled');
+        publishBtn.setAttribute('disabled', 'disabled');
+    } else {
+        badge.classList.remove('success');
+        badge.classList.add('error');
+        badge.innerHTML = '<i class="fa-solid fa-lock me-1"></i><span class="status-text">Unpublished</span>';
+        publishBtn.classList.remove('disabled');
+        publishBtn.removeAttribute('disabled');
+    }
+}
+
+function initChart() {
+    const validVotes = election.candidates.reduce((sum, c) => sum + c.votes, 0);
+    document.getElementById('validVotesLabel').textContent = fmt(validVotes);
+
+    const ctx = document.getElementById('resultsChart');
+    const labels = election.candidates.map(c => c.name);
+    const data = election.candidates.map(c => c.votes);
+    const palette = [
+        'rgba(97,68,166,0.85)',
+        'rgba(0,153,210,0.85)',
+        'rgba(0,119,78,0.85)',
+        'rgba(255,165,0,0.85)',
+        'rgba(108,117,125,0.85)',
+        'rgba(205,32,38,0.85)'
+    ];
+
+    resultsChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels,
+            datasets: [{
+                data,
+                backgroundColor: palette,
+                borderColor: '#fff',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (context) => `${context.label}: ${fmt(context.parsed)} votes`
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Table state
+let tableState = {
+    sortBy: 'votes',
+    sortDir: 'desc',
+    page: 1,
+    pageSize: 5,
+    filter: ''
+};
+
+function getFilteredSortedData() {
+    const validTotal = election.candidates.reduce((s, c) => s + c.votes, 0);
+    let rows = election.candidates.map(c => ({
+        candidateName: c.name,
+        voteCount: c.votes,
+        votePercentage: validTotal ? (c.votes / validTotal) * 100 : 0,
+        candidatePhoto: c.photo
+    }));
+
+    if (tableState.filter) {
+        const f = tableState.filter.toLowerCase();
+        rows = rows.filter(r => r.candidateName.toLowerCase().includes(f));
+    }
+
+    rows.sort((a, b) => {
+        const dir = tableState.sortDir === 'asc' ? 1 : -1;
+        if (tableState.sortBy === 'candidate') return a.candidateName.localeCompare(b.candidateName) * dir;
+        if (tableState.sortBy === 'votes') return (a.voteCount - b.voteCount) * dir;
+        if (tableState.sortBy === 'percentage') return (a.votePercentage - b.votePercentage) * dir;
+        return 0;
+    });
+    return rows;
+}
+
+function renderTable() {
+    const tbody = document.getElementById('resultsTbody');
+    tbody.innerHTML = '';
+    const rows = getFilteredSortedData();
+    const total = rows.length;
+    const startIdx = (tableState.page - 1) * tableState.pageSize;
+    const endIdx = Math.min(startIdx + tableState.pageSize, total);
+    const pageRows = rows.slice(startIdx, endIdx);
+
+    pageRows.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <img src="${r.candidatePhoto}" alt="${r.candidateName}" class="avatar sm" onerror="this.src='https://picsum.photos/seed/${encodeURIComponent(r.candidateName)}/28/28'">
+              <span class="fw-semibold">${r.candidateName}</span>
+            </div>
+          </td>
+          <td class="text-end">${fmt(r.voteCount)}</td>
+          <td class="text-end">${r.votePercentage.toFixed(1)}%</td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    // Update pagination info
+    const totalRowsEl = document.getElementById('totalRows');
+    const paginationInfo = document.getElementById('paginationInfo');
+    const rangeLabel = document.getElementById('rangeLabel');
+    totalRowsEl.textContent = total;
+    if (total === 0) {
+        rangeLabel.textContent = '0–0';
+        paginationInfo.textContent = 'Page 0 of 0';
+    } else {
+        rangeLabel.textContent = `${startIdx + 1}–${endIdx}`;
+        const totalPages = Math.max(1, Math.ceil(total / tableState.pageSize));
+        paginationInfo.textContent = `Page ${tableState.page} of ${totalPages}`;
+        document.getElementById('prevPage').parentElement.classList.toggle('disabled', tableState.page <= 1);
+        document.getElementById('nextPage').parentElement.classList.toggle('disabled', tableState.page >= totalPages);
+    }
+
+    // Update sort indicators
+    document.querySelectorAll('#resultsTable thead th.sortable').forEach(th => {
+        th.setAttribute('aria-sort', 'none');
+        th.classList.remove('sorted-asc', 'sorted-desc');
+        if (th.dataset.sort === tableState.sortBy) {
+            th.setAttribute('aria-sort', tableState.sortDir === 'asc' ? 'ascending' : 'descending');
+            th.classList.add(tableState.sortDir === 'asc' ? 'sorted-asc' : 'sorted-desc');
+        }
+    });
+}
+
+function initTable() {
+    renderTable();
+}
+
+function setSort(column) {
+    if (tableState.sortBy === column) {
+        tableState.sortDir = tableState.sortDir === 'asc' ? 'desc' : 'asc';
+    } else {
+        tableState.sortBy = column;
+        tableState.sortDir = column === 'candidate' ? 'asc' : 'desc';
+    }
+    tableState.page = 1;
+    renderTable();
+}
+
+function onFilterChange(e) {
+    tableState.filter = e.target.value || '';
+    tableState.page = 1;
+    renderTable();
+}
+
+function changePage(delta) {
+    const total = getFilteredSortedData().length;
+    const totalPages = Math.max(1, Math.ceil(total / tableState.pageSize));
+    tableState.page = Math.min(totalPages, Math.max(1, tableState.page + delta));
+    renderTable();
+}
+
+// Actions
+async function onPublish() {
+    if (isPublished) return;
+    const {
+        value: confirmed
+    } = await Swal.fire({
+        title: 'Publish Results?',
+        html: '<div class="text-start">Are you sure you want to publish these results? This action cannot be undone.</div>',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, publish',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#00774E'
+    });
+    if (confirmed) {
+        Swal.fire({
+            title: 'Publishing...',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        // Simulate API call
+        setTimeout(() => {
+            isPublished = true;
+            updatePublicationUI();
+            Swal.close();
+            showToast('Results have been published successfully.');
+        }, 900);
+    }
+}
+
+async function onDownload() {
+    const {
+        value: format
+    } = await Swal.fire({
+        title: 'Download Results Report',
+        input: 'radio',
+        inputOptions: {
+            pdf: 'PDF',
+            csv: 'CSV'
+        },
+        inputValidator: (v) => !v && 'Please select a format',
+        confirmButtonText: 'Download',
+        showCancelButton: true
+    });
+    if (format) {
+        Swal.fire({
+            title: 'Preparing report...',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+        setTimeout(() => {
+            Swal.close();
+            showToast(`Report download started (${format.toUpperCase()}).`);
+            // Here you would trigger window.location = `/api/report?format=${format}` or fetch Blob
+        }, 800);
+    }
+}
+
+function showToast(message) {
+    const toastEl = document.getElementById('appToast');
+    document.getElementById('toastMessage').textContent = message;
+    const toast = new bootstrap.Toast(toastEl, {
+        delay: 3000
+    });
+    toast.show();
+}
+  </script>
+ </body>
+</html>

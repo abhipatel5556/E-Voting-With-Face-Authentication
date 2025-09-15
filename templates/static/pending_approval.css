@@ -1,0 +1,52 @@
+/* Pending Approval Page (pending_approval.css)
+   Keep this page focused and centered. Avoid duplicating global styles. */
+/* Use Poppins on this page for brand typography */
+body {
+    font-family: "Poppins", var(--font-sans)
+    }
+/* Wrapper to center the approval panel with ample whitespace */
+.approval-wrapper {
+    min-height: 58vh;
+    /* allows space for header/footer while keeping the panel central */
+    }
+/* Main card/panel styling builds on .app-card from global */
+.approval-panel {
+    max-width: 760px;
+    width: 100%;
+    padding: var(--space-6)
+    }
+/* Large, intuitive status icon */
+.status-icon {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--primary-soft);
+    color: var(--color-primary);
+    font-size: 2rem;
+    box-shadow: var(--shadow-1);
+    animation: pulseGlow 2.4s ease-in-out infinite;
+    /* keyframes provided globally */
+    }
+/* Lead paragraph spacing tweaks on small screens */
+@media (max-width: 575.98px) {
+    .approval-panel {
+        padding: var(--space-4)
+        }
+    .status-icon {
+        width: 84px;
+        height: 84px;
+        font-size: 1.75rem
+        }
+    }
+/* Breadcrumb subtle spacing */
+.breadcrumb {
+    margin-bottom: var(--space-4)
+    }
+/* Buttons layout tweaks for tiny widths */
+@media (max-width: 380px) {
+    .approval-panel .btn {
+        width: 100%
+        }
+    }

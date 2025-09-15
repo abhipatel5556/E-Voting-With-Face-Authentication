@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Elections — Admin Console
+  </title>
+  <!-- Poppins Typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <!-- Bootstrap 5 CSS -->
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" rel="stylesheet"/>
+  <!-- Font Awesome 6 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+   <!-- Global Theme CSS -->
+   <link href="static/style.css" rel="stylesheet">
+    <!-- Page-specific CSS -->
+    <link href="static/elections_list.css" rel="stylesheet"/>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+    </script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js">
+    </script>
+   </link>
+  </link>
+ </head>
+ <body class="bg-body-tertiary">
+  <!-- Admin Header: branding, quick actions, profile menu -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <style>
+   .app-header-admin{background:#6144a6;color:#fff}
+    .app-header-admin .navbar-brand,.app-header-admin .nav-link,.app-header-admin .dropdown-toggle{color:#fff}
+    .app-header-admin .form-control:focus{box-shadow:none;border-color:#ddd}
+    .notif-dot{position:absolute;top:.25rem;right:.25rem;width:.5rem;height:.5rem;background:#dc3545;border-radius:50%}
+  </style>
+  <nav class="navbar navbar-expand-lg app-header-admin shadow-sm sticky-top">
+   <div class="container-fluid">
+    <button aria-controls="appSidebarAdmin" aria-expanded="false" aria-label="Toggle sidebar" class="btn btn-outline-light d-lg-none me-2" data-bs-target="#appSidebarAdmin" data-bs-toggle="collapse" type="button">
+     <i class="fa-solid fa-bars">
+     </i>
+    </button>
+    <a class="navbar-brand d-flex align-items-center" href="./admin_dashboard.html">
+     <img alt="Logo" class="me-2" onerror="this.onerror=null;this.src='https://picsum.photos/seed/logo/120/28'" src="https://dsaishared.blob.core.windows.net/uxcceleratecontainer/projects/68bd9542e1229daa603ec466/logos/logo_94009328-59f7-426f-bafe-3182305ed5e5.webp" style="height:28px;"/>
+     Admin Console
+    </a>
+    <button aria-controls="adminNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#adminNav" data-bs-toggle="collapse" type="button">
+     <span class="navbar-toggler-icon">
+     </span>
+    </button>
+    <div class="collapse navbar-collapse" id="adminNav">
+     <form action="./elections_list.html" class="d-none d-md-flex ms-auto me-3" role="search">
+      <div class="input-group input-group-sm">
+       <span class="input-group-text">
+        <i class="fa-solid fa-magnifying-glass">
+        </i>
+       </span>
+       <input aria-label="Search" class="form-control" name="q" placeholder="Search elections or voters" type="search"/>
+      </div>
+     </form>
+     <ul class="navbar-nav align-items-center">
+      <li class="nav-item me-2 d-none d-md-block">
+       <a class="btn btn-light btn-sm" href="./election_creation.html">
+        <i class="fa-solid fa-plus me-1">
+        </i>
+        Create Election
+       </a>
+      </li>
+      <li class="nav-item me-2 position-relative">
+       <a aria-label="Notifications" class="nav-link" href="#">
+        <i class="fa-regular fa-bell">
+        </i>
+        <span class="notif-dot">
+        </span>
+       </a>
+      </li>
+      <li class="nav-item dropdown">
+       <a aria-expanded="false" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" href="#" id="adminProfileMenu" role="button">
+        <img alt="Avatar" class="rounded-circle me-2" src="https://www.gravatar.com/avatar?d=mp&amp;s=40" style="width:28px;height:28px"/>
+        <span>
+         Alex Smith
+        </span>
+       </a>
+       <ul class="dropdown-menu dropdown-menu-end">
+        <li>
+         <h6 class="dropdown-header">
+          Administrator
+         </h6>
+        </li>
+        <li>
+         <a class="dropdown-item" href="#" onclick="return false;">
+          <i class="fa-solid fa-gear me-2">
+          </i>
+          Settings
+         </a>
+        </li>
+        <li>
+         <a class="dropdown-item" href="./admin_guide.html" onclick="return false;">
+          <i class="fa-solid fa-book-open-reader me-2">
+          </i>
+          Admin Guide
+         </a>
+        </li>
+        <li>
+         <hr class="dropdown-divider"/>
+        </li>
+        <li>
+         <a class="dropdown-item" href="./index.html">
+          <i class="fa-solid fa-right-from-bracket me-2">
+          </i>
+          Logout
+         </a>
+        </li>
+       </ul>
+      </li>
+     </ul>
+    </div>
+   </div>
+  </nav>
+  <!-- Left Sidebar (Admin) -->
+  <style>
+   :root { --primary-color:#6144a6; --secondary-color:#ffffff; --hover-bg: rgba(97,68,166,.08); --active-bg: rgba(97,68,166,.14); }
+    .app-sidebar-admin{width:260px;background:#fff;border-right:1px solid #eee;min-height:100vh}
+    .app-sidebar-admin .brand{border-bottom:1px solid #eee}
+    .app-sidebar-admin .nav-link{color:#444;border-radius:.35rem;padding:.5rem .75rem}
+    .app-sidebar-admin .nav-link .fa-fw{width:1.25rem}
+    .app-sidebar-admin .nav-link:hover{background:var(--hover-bg)}
+    .app-sidebar-admin .nav-link.active{background:var(--active-bg);border-left:4px solid var(--primary-color)}
+    .app-sidebar-admin .section-title{font-size:.72rem;letter-spacing:.08em;color:#888}
+    .app-sidebar-admin .submenu .nav-link{padding-left:2rem}
+    @media (max-width: 991.98px){ .app-sidebar-admin{display:none;} }
+  </style>
+  <aside class="app-sidebar-admin d-none d-lg-block position-fixed top-0 start-0" id="appSidebarAdmin">
+   <div class="brand d-flex align-items-center p-3">
+    <a class="text-decoration-none d-flex align-items-center" href="./admin_dashboard.html">
+     <img alt="Logo" class="me-2" onerror="this.onerror=null;this.src='https://picsum.photos/seed/logo2/120/26'" src="https://dsaishared.blob.core.windows.net/uxcceleratecontainer/projects/68bd9542e1229daa603ec466/logos/logo_94009328-59f7-426f-bafe-3182305ed5e5.webp" style="height:26px"/>
+     <span class="fw-semibold text-dark">
+      Admin Console
+     </span>
+    </a>
+   </div>
+   <div class="p-3">
+    <div class="d-flex align-items-center mb-3">
+     <img alt="Admin Avatar" class="rounded-circle me-2" src="https://www.gravatar.com/avatar?d=mp&amp;s=64" style="width:40px;height:40px"/>
+     <div>
+      <div class="fw-semibold" id="adminName">
+       Alex Smith
+      </div>
+      <div class="text-muted small">
+       Administrator
+      </div>
+     </div>
+    </div>
+    <div class="mb-2 section-title text-uppercase">
+     Overview
+    </div>
+    <ul class="nav flex-column mb-3">
+     <li class="nav-item">
+      <a class="nav-link" href="./admin_dashboard.html">
+       <i class="fa-solid fa-gauge-high fa-fw me-2">
+       </i>
+       Dashboard
+      </a>
+     </li>
+    </ul>
+    <div class="mb-2 section-title text-uppercase">
+     Elections
+    </div>
+    <ul class="nav flex-column mb-1">
+     <li class="nav-item">
+      <a class="nav-link active" href="./elections_list.html">
+       <i class="fa-solid fa-list-check fa-fw me-2">
+       </i>
+       All Elections
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="./election_creation.html">
+       <i class="fa-solid fa-plus fa-fw me-2">
+       </i>
+       Create New
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="./elections_list.html?status=active">
+       <i class="fa-solid fa-signal fa-fw me-2">
+       </i>
+       Active &amp; Monitoring
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="./elections_list.html?status=completed">
+       <i class="fa-solid fa-chart-column fa-fw me-2">
+       </i>
+       Completed &amp; Results
+      </a>
+     </li>
+    </ul>
+    <div class="mb-2 section-title text-uppercase mt-3">
+     Voters
+    </div>
+    <ul class="nav flex-column mb-3">
+     <li class="nav-item">
+      <a class="nav-link" href="./voter_management.html">
+       <i class="fa-solid fa-users fa-fw me-2">
+       </i>
+       Manage Voters
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="./voter_management.html?status=pending">
+       <i class="fa-solid fa-user-check fa-fw me-2">
+       </i>
+       Pending Approvals
+      </a>
+     </li>
+    </ul>
+    <div class="mb-2 section-title text-uppercase">
+     Resources
+    </div>
+    <ul class="nav flex-column">
+     <li class="nav-item">
+      <a class="nav-link" href="#" onclick="return false;">
+       <i class="fa-solid fa-book-open-reader fa-fw me-2">
+       </i>
+       Admin Guide
+      </a>
+     </li>
+     <li class="nav-item">
+      <a class="nav-link" href="./privacy.html">
+       <i class="fa-solid fa-shield-halved fa-fw me-2">
+       </i>
+       Privacy
+      </a>
+     </li>
+    </ul>
+   </div>
+  </aside>
+  <!-- Main Content -->
+  <main class="with-sidebar container-fluid py-4" id="mainContent">
+   <div class="container-max">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="breadcrumb mb-3">
+     <ol class="breadcrumb mb-0">
+      <li class="breadcrumb-item">
+       <a href="./admin_dashboard.html">
+        Admin
+       </a>
+      </li>
+      <li aria-current="page" class="breadcrumb-item active">
+       Elections
+      </li>
+     </ol>
+    </nav>
+    <!-- Page Header with primary action -->
+    <div class="page-header mb-3 align-items-center">
+     <div class="d-flex align-items-center gap-3">
+      <h1 class="page-title mb-0">
+       Elections
+      </h1>
+      <span class="badge-soft info" id="totalElectionsBadge">
+       Total: 0
+      </span>
+     </div>
+     <div class="d-flex align-items-center gap-2">
+      <a class="btn btn-primary" href="./election_creation.html" id="btnCreateElection">
+       <i class="fa-solid fa-plus me-2">
+       </i>
+       Create New Election
+      </a>
+     </div>
+    </div>
+    <!-- System feedback area -->
+    <div aria-live="polite" class="mb-3" id="systemFeedback" role="status">
+    </div>
+    <!-- Status Summary Chart -->
+    <div class="card mb-4">
+     <div class="card-header">
+      <div class="d-flex align-items-center justify-content-between w-100">
+       <div class="widget-title d-flex align-items-center gap-2 mb-0">
+        <i class="fa-solid fa-chart-pie text-primary">
+        </i>
+        <span>
+         Status Overview
+        </span>
+       </div>
+       <small class="text-muted">
+        Distribution of Upcoming, Active, Completed
+       </small>
+      </div>
+     </div>
+     <div class="card-body">
+      <div class="row align-items-center">
+       <div class="col-12 col-md-6">
+        <canvas aria-label="Elections by status" height="160" id="statusChart" role="img">
+        </canvas>
+       </div>
+       <div class="col-12 col-md-6 mt-3 mt-md-0">
+        <div class="d-flex flex-wrap gap-2">
+         <span class="badge-soft info" id="countUpcoming">
+          Upcoming: 0
+         </span>
+         <span class="badge-soft success" id="countActive">
+          Active: 0
+         </span>
+         <span class="badge-soft primary" id="countCompleted">
+          Completed: 0
+         </span>
+        </div>
+        <p class="text-muted small mt-3 mb-0">
+         Tip: Click a segment in the chart to filter the table by that status. Click again to reset.
+        </p>
+       </div>
+      </div>
+     </div>
+    </div>
+    <!-- Filters & Controls -->
+    <div class="app-card mb-3">
+     <div class="card-body">
+      <div class="row g-2 align-items-center">
+       <div class="col-12 col-lg-6">
+        <ul class="nav nav-tabs" id="statusTabs" role="tablist">
+         <li class="nav-item" role="presentation">
+          <button class="nav-link active" data-status="All" role="tab" type="button">
+           All
+          </button>
+         </li>
+         <li class="nav-item" role="presentation">
+          <button class="nav-link" data-status="Upcoming" role="tab" type="button">
+           Upcoming
+          </button>
+         </li>
+         <li class="nav-item" role="presentation">
+          <button class="nav-link" data-status="Active" role="tab" type="button">
+           Active
+          </button>
+         </li>
+         <li class="nav-item" role="presentation">
+          <button class="nav-link" data-status="Completed" role="tab" type="button">
+           Completed
+          </button>
+         </li>
+        </ul>
+       </div>
+       <div class="col-12 col-lg-6">
+        <div class="d-flex gap-2 justify-content-lg-end">
+         <div class="input-group" style="max-width: 360px;">
+          <span class="input-group-text">
+           <i class="fa-solid fa-magnifying-glass">
+           </i>
+          </span>
+          <input aria-label="Search elections by title" class="form-control" id="searchInput" placeholder="Search by election title..." type="search"/>
+         </div>
+         <div class="d-none d-md-flex align-items-center gap-2">
+          <label class="form-label mb-0 small text-muted" for="pageSize">
+           Rows
+          </label>
+          <select class="form-select form-select-sm" id="pageSize" style="width:auto">
+           <option selected="" value="5">
+            5
+           </option>
+           <option value="10">
+            10
+           </option>
+           <option value="20">
+            20
+           </option>
+          </select>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+    <!-- Elections Table -->
+    <div class="card">
+     <div class="card-header">
+      <div class="widget-title">
+       All Elections
+      </div>
+     </div>
+     <div class="card-body p-0">
+      <div class="table-responsive">
+       <table aria-describedby="tableCaption" class="table table-theme mb-0" id="electionsTable">
+        <caption class="visually-hidden" id="tableCaption">
+         Table of elections with status, date ranges, turnout, and actions
+        </caption>
+        <thead>
+         <tr>
+          <th class="sortable" data-key="title" scope="col">
+           Title
+           <i class="fa-solid fa-sort ms-1 text-muted">
+           </i>
+          </th>
+          <th class="sortable" data-key="status" scope="col">
+           Status
+           <i class="fa-solid fa-sort ms-1 text-muted">
+           </i>
+          </th>
+          <th class="sortable" data-key="startDate" scope="col">
+           Date Range
+           <i class="fa-solid fa-sort ms-1 text-muted">
+           </i>
+          </th>
+          <th class="sortable" data-key="turnout" scope="col">
+           Turnout
+           <i class="fa-solid fa-sort ms-1 text-muted">
+           </i>
+          </th>
+          <th class="text-end" scope="col">
+           Actions
+          </th>
+         </tr>
+        </thead>
+        <tbody id="tableBody">
+         <!-- Loading skeleton rows -->
+         <tr class="loading-row">
+          <td>
+           <span class="skeleton" style="height:16px">
+           </span>
+          </td>
+          <td>
+           <span class="skeleton" style="height:16px;width:80px">
+           </span>
+          </td>
+          <td>
+           <span class="skeleton" style="height:16px;width:160px">
+           </span>
+          </td>
+          <td>
+           <span class="skeleton" style="height:16px;width:120px">
+           </span>
+          </td>
+          <td class="text-end">
+           <span class="skeleton" style="height:16px;width:80px">
+           </span>
+          </td>
+         </tr>
+         <tr class="loading-row">
+          <td>
+           <span class="skeleton" style="height:16px">
+           </span>
+          </td>
+          <td>
+           <span class="skeleton" style="height:16px;width:80px">
+           </span>
+          </td>
+          <td>
+           <span class="skeleton" style="height:16px;width:160px">
+           </span>
+          </td>
+          <td>
+           <span class="skeleton" style="height:16px;width:120px">
+           </span>
+          </td>
+          <td class="text-end">
+           <span class="skeleton" style="height:16px;width:80px">
+           </span>
+          </td>
+         </tr>
+         <tr class="loading-row">
+          <td>
+           <span class="skeleton" style="height:16px">
+           </span>
+          </td>
+          <td>
+           <span class="skeleton" style="height:16px;width:80px">
+           </span>
+          </td>
+          <td>
+           <span class="skeleton" style="height:16px;width:160px">
+           </span>
+          </td>
+          <td>
+           <span class="skeleton" style="height:16px;width:120px">
+           </span>
+          </td>
+          <td class="text-end">
+           <span class="skeleton" style="height:16px;width:80px">
+           </span>
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </div>
+     </div>
+     <div class="card-footer d-flex flex-wrap gap-2 align-items-center justify-content-between">
+      <div class="text-muted small" id="paginationInfo">
+       Showing 0–0 of 0
+      </div>
+      <nav aria-label="Elections table pagination">
+       <ul class="pagination pagination-sm mb-0" id="paginationControls">
+        <li class="page-item">
+         <button aria-label="Previous" class="page-link" disabled="" id="prevPage">
+          Prev
+         </button>
+        </li>
+        <li class="page-item">
+         <button aria-label="Next" class="page-link" disabled="" id="nextPage">
+          Next
+         </button>
+        </li>
+       </ul>
+      </nav>
+     </div>
+    </div>
+    <!-- Deletion note -->
+    <p class="small text-muted mt-2 mb-0">
+     <i class="fa-regular fa-circle-question me-1">
+     </i>
+     Deleting an upcoming election is permanent. Use with caution.
+    </p>
+   </div>
+  </main>
+  <!-- Footer -->
+  <style>
+   .app-footer-admin{background:#f8f9fa;border-top:1px solid #eee;color:#555}
+    .app-footer-admin a{color:#6144a6;text-decoration:none}
+    .app-footer-admin a:hover{text-decoration:underline}
+  </style>
+  <footer class="app-footer-admin py-3 mt-auto">
+   <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
+    <div class="mb-2 mb-md-0">
+     <a class="btn btn-outline-secondary btn-sm me-2" href="./election_creation.html">
+      <i class="fa-solid fa-plus me-1">
+      </i>
+      Create Election
+     </a>
+     <a class="btn btn-outline-secondary btn-sm" href="./voter_management.html">
+      <i class="fa-solid fa-users me-1">
+      </i>
+      Manage Voters
+     </a>
+    </div>
+    <div class="d-flex align-items-center">
+     <img alt="Logo" class="me-2" onerror="this.onerror=null;this.src='https://picsum.photos/seed/logo3/120/18'" src="https://dsaishared.blob.core.windows.net/uxcceleratecontainer/projects/68bd9542e1229daa603ec466/logos/logo_94009328-59f7-426f-bafe-3182305ed5e5.webp" style="height:18px"/>
+     <small class="me-3">
+      © 2025 FaceID Voting
+     </small>
+     <a class="small me-3" href="./terms.html">
+      Terms
+     </a>
+     <a class="small" href="./privacy.html">
+      Privacy
+     </a>
+    </div>
+   </div>
+  </footer>
+  <!-- Bootstrap JS -->
+  <script crossorigin="anonymous" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+  </script>
+  <!-- Page Script: data, rendering, interactivity -->
+  <script>
+   // Brand typography override
+document.addEventListener('DOMContentLoaded', function() {
+    document.body.style.fontFamily = "'Poppins', var(--font-sans)";
+});
+
+const electionsData = [{
+    id: 'EL-2025-001',
+    title: 'Student Council 2025',
+    status: 'Upcoming',
+    startDate: '2025-10-01',
+    endDate: '2025-10-03',
+    votesCast: 0,
+    eligibleVoters: 1200
+}, {
+    id: 'EL-2025-002',
+    title: 'Union Board Midterm',
+    status: 'Active',
+    startDate: '2025-09-01',
+    endDate: '2025-09-07',
+    votesCast: 842,
+    eligibleVoters: 1500
+}, {
+    id: 'EL-2025-003',
+    title: 'City Mayor Runoff',
+    status: 'Completed',
+    startDate: '2025-06-02',
+    endDate: '2025-06-03',
+    votesCast: 35890,
+    eligibleVoters: 40210
+}, {
+    id: 'EL-2025-004',
+    title: 'Homeowners Assoc Annual',
+    status: 'Upcoming',
+    startDate: '2025-11-15',
+    endDate: '2025-11-20',
+    votesCast: 0,
+    eligibleVoters: 350
+}, {
+    id: 'EL-2025-005',
+    title: 'School Board District 4',
+    status: 'Active',
+    startDate: '2025-09-03',
+    endDate: '2025-09-10',
+    votesCast: 1902,
+    eligibleVoters: 4200
+}, {
+    id: 'EL-2024-011',
+    title: 'General Election 2024',
+    status: 'Completed',
+    startDate: '2024-11-05',
+    endDate: '2024-11-05',
+    votesCast: 1358900,
+    eligibleVoters: 1600000
+}, {
+    id: 'EL-2025-006',
+    title: 'Tech Org Chair',
+    status: 'Completed',
+    startDate: '2025-01-12',
+    endDate: '2025-01-12',
+    votesCast: 220,
+    eligibleVoters: 300
+}];
+
+let state = {
+    data: [...electionsData],
+    filtered: [],
+    search: '',
+    status: 'All',
+    sortKey: 'startDate',
+    sortDir: 'desc',
+    page: 1,
+    pageSize: 5,
+    isLoading: true
+};
+
+const els = {
+    tableBody: document.getElementById('tableBody'),
+    paginationInfo: document.getElementById('paginationInfo'),
+    prevPage: document.getElementById('prevPage'),
+    nextPage: document.getElementById('nextPage'),
+    statusTabs: document.getElementById('statusTabs'),
+    searchInput: document.getElementById('searchInput'),
+    pageSize: document.getElementById('pageSize'),
+    systemFeedback: document.getElementById('systemFeedback'),
+    totalElectionsBadge: document.getElementById('totalElectionsBadge'),
+    countUpcoming: document.getElementById('countUpcoming'),
+    countActive: document.getElementById('countActive'),
+    countCompleted: document.getElementById('countCompleted')
+};
+
+// Utility formatters
+const fmtDate = (iso) => new Intl.DateTimeFormat(undefined, {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit'
+}).format(new Date(iso));
+const pct = (num) => (num * 100).toFixed(1) + '%';
+const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+
+// Compute status counts and update chart/badges
+function computeCounts(list) {
+    const counts = {
+        Upcoming: 0,
+        Active: 0,
+        Completed: 0
+    };
+    list.forEach(e => counts[e.status] = (counts[e.status] || 0) + 1);
+    els.totalElectionsBadge.textContent = 'Total: ' + list.length;
+    els.countUpcoming.textContent = 'Upcoming: ' + (counts.Upcoming || 0);
+    els.countActive.textContent = 'Active: ' + (counts.Active || 0);
+    els.countCompleted.textContent = 'Completed: ' + (counts.Completed || 0);
+    updateChart(counts);
+}
+
+// Rendering table rows
+function renderTable() {
+    // Apply status filter
+    let rows = state.data.filter(e => state.status === 'All' ? true : e.status === state.status);
+    // Search filter
+    const q = state.search.trim().toLowerCase();
+    if (q) rows = rows.filter(e => e.title.toLowerCase().includes(q));
+
+    // Sorting
+    rows.sort((a, b) => {
+        const dir = state.sortDir === 'asc' ? 1 : -1;
+        const key = state.sortKey;
+        if (key === 'turnout') {
+            const ap = a.eligibleVoters ? a.votesCast / a.eligibleVoters : 0;
+            const bp = b.eligibleVoters ? b.votesCast / b.eligibleVoters : 0;
+            return (ap - bp) * dir;
+        }
+        const av = a[key];
+        const bv = b[key];
+        if (key === 'startDate') return (new Date(av) - new Date(bv)) * dir;
+        return ('' + av).localeCompare('' + bv) * dir;
+    });
+
+    state.filtered = rows;
+    computeCounts(state.data); // counts from full dataset
+
+    // Pagination
+    const total = rows.length;
+    const pageSize = state.pageSize;
+    const totalPages = Math.max(1, Math.ceil(total / pageSize));
+    state.page = clamp(state.page, 1, totalPages);
+    const startIdx = (state.page - 1) * pageSize;
+    const endIdx = startIdx + pageSize;
+    const pageRows = rows.slice(startIdx, endIdx);
+
+    // Render rows
+    els.tableBody.innerHTML = pageRows.map(renderRow).join('');
+
+    // Update pagination controls
+    const startNum = total === 0 ? 0 : startIdx + 1;
+    const endNum = Math.min(endIdx, total);
+    els.paginationInfo.textContent = `Showing ${startNum}–${endNum} of ${total}`;
+    els.prevPage.disabled = state.page <= 1;
+    els.nextPage.disabled = state.page >= totalPages;
+
+    // Re-bind action menus
+    bindRowActions();
+    updateHeaderSortIcons();
+}
+
+function renderRow(e) {
+    const badgeClass = e.status === 'Active' ? 'success' : (e.status === 'Upcoming' ? 'info' : 'primary');
+    const dateRange = `${fmtDate(e.startDate)} — ${fmtDate(e.endDate)}`;
+    const turnoutNum = `${e.votesCast.toLocaleString()} / ${e.eligibleVoters.toLocaleString()}`;
+    const turnoutPct = e.eligibleVoters ? pct(e.votesCast / e.eligibleVoters) : '0%';
+    const actions = actionButtonsForStatus(e);
+    return `
+        <tr data-id="${e.id}">
+          <td>
+            <div class="fw-semibold">${escapeHtml(e.title)}</div>
+            <div class="text-muted small">${e.id}</div>
+          </td>
+          <td><span class="badge-soft ${badgeClass}">${e.status}</span></td>
+          <td>${dateRange}</td>
+          <td><span class="me-2">${turnoutNum}</span><span class="text-muted small">(${turnoutPct})</span></td>
+          <td class="text-end">${actions}</td>
+        </tr>
+      `;
+}
+
+function actionButtonsForStatus(e) {
+    const monitor = `<li><a class="dropdown-item action-monitor" href="#" data-id="${e.id}"><i class="fa-solid fa-signal me-2"></i>Monitor</a></li>`;
+    const results = `<li><a class="dropdown-item action-results" href="#" data-id="${e.id}"><i class="fa-solid fa-chart-column me-2"></i>View Results</a></li>`;
+    const edit = `<li><a class="dropdown-item action-edit" href="#" data-id="${e.id}"><i class="fa-solid fa-pen-to-square me-2"></i>Edit</a></li>`;
+    const del = `<li><a class="dropdown-item text-danger action-delete" href="#" data-id="${e.id}"><i class="fa-solid fa-trash-can me-2"></i>Delete</a></li>`;
+    let items = '';
+    if (e.status === 'Active') items = monitor + results;
+    if (e.status === 'Completed') items = results;
+    if (e.status === 'Upcoming') items = edit + del;
+    return `
+        <div class="dropdown">
+          <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Actions
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            ${items}
+          </ul>
+        </div>
+      `;
+}
+
+function bindRowActions() {
+    document.querySelectorAll('.action-monitor').forEach(el => el.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const id = ev.currentTarget.getAttribute('data-id');
+        window.location.href = `./election_monitoring.html?id=${encodeURIComponent(id)}`;
+    }));
+    document.querySelectorAll('.action-results').forEach(el => el.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const id = ev.currentTarget.getAttribute('data-id');
+        window.location.href = `./admin_results.html?id=${encodeURIComponent(id)}`;
+    }));
+    document.querySelectorAll('.action-edit').forEach(el => el.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const id = ev.currentTarget.getAttribute('data-id');
+        window.location.href = `./election_creation.html?mode=edit&id=${encodeURIComponent(id)}`;
+    }));
+    document.querySelectorAll('.action-delete').forEach(el => el.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        const id = ev.currentTarget.getAttribute('data-id');
+        const election = state.data.find(x => x.id === id);
+        Swal.fire({
+            title: 'Delete election?',
+            html: `<div class="text-start">You are about to delete <strong>${escapeHtml(election.title)}</strong>.<br/><span class="text-warning">This action cannot be undone.</span></div>`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Delete',
+            confirmButtonColor: '#CD2026',
+            cancelButtonText: 'Cancel'
+        }).then(result => {
+            if (result.isConfirmed) {
+                state.data = state.data.filter(x => x.id !== id);
+                if (state.page > Math.ceil(state.data.length / state.pageSize)) state.page = 1;
+                renderTable();
+                Swal.fire({
+                    title: 'Deleted',
+                    text: 'Election removed successfully',
+                    icon: 'success',
+                    timer: 1400,
+                    showConfirmButton: false
+                });
+            }
+        });
+    }));
+}
+
+// Search debounce
+let searchTm;
+els.searchInput.addEventListener('input', (e) => {
+    clearTimeout(searchTm);
+    searchTm = setTimeout(() => {
+        state.search = e.target.value;
+        state.page = 1;
+        renderTable();
+    }, 250);
+});
+
+// Status tabs
+els.statusTabs.querySelectorAll('button.nav-link').forEach(btn => {
+    btn.addEventListener('click', () => {
+        els.statusTabs.querySelectorAll('button.nav-link').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const status = btn.getAttribute('data-status');
+        state.status = status;
+        state.page = 1;
+        renderTable();
+    });
+});
+
+// Page size
+els.pageSize.addEventListener('change', () => {
+    state.pageSize = parseInt(els.pageSize.value, 10);
+    state.page = 1;
+    renderTable();
+});
+
+// Pagination controls
+els.prevPage.addEventListener('click', () => {
+    if (state.page > 1) {
+        state.page--;
+        renderTable();
+    }
+});
+els.nextPage.addEventListener('click', () => {
+    state.page++;
+    renderTable();
+});
+
+// Sorting controls
+document.querySelectorAll('#electionsTable thead th.sortable').forEach(th => {
+    th.style.cursor = 'pointer';
+    th.addEventListener('click', () => {
+        const key = th.getAttribute('data-key');
+        if (state.sortKey === key) {
+            state.sortDir = state.sortDir === 'asc' ? 'desc' : 'asc';
+        } else {
+            state.sortKey = key;
+            state.sortDir = key === 'title' ? 'asc' : 'desc';
+        }
+        renderTable();
+    });
+});
+
+function updateHeaderSortIcons() {
+    document.querySelectorAll('#electionsTable thead th.sortable').forEach(th => {
+        const icon = th.querySelector('i');
+        const key = th.getAttribute('data-key');
+        if (state.sortKey === key) {
+            icon.className = `ms-1 fa-solid ${state.sortDir === 'asc' ? 'fa-sort-up' : 'fa-sort-down'} text-primary`;
+            th.setAttribute('aria-sort', state.sortDir === 'asc' ? 'ascending' : 'descending');
+        } else {
+            icon.className = 'fa-solid fa-sort ms-1 text-muted';
+            th.setAttribute('aria-sort', 'none');
+        }
+    });
+}
+
+// Escape util to prevent XSS in sample rendering
+function escapeHtml(str) {
+    return (str + '').replace(/[&<>"]/g, c => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;'
+    } [c]));
+}
+
+// Chart.js Donut
+let statusChart;
+
+function updateChart(counts) {
+    const dataArr = [counts.Upcoming || 0, counts.Active || 0, counts.Completed || 0];
+    const ctx = document.getElementById('statusChart');
+    const cfg = {
+        type: 'doughnut',
+        data: {
+            labels: ['Upcoming', 'Active', 'Completed'],
+            datasets: [{
+                data: dataArr,
+                backgroundColor: ['#e5f4fa', '#e5f1ed', '#efecf6'],
+                borderColor: ['#0099D2', '#00774E', '#6144a6'],
+                borderWidth: 2,
+                hoverOffset: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+                tooltip: {
+                    enabled: true
+                }
+            },
+            cutout: '60%'
+        }
+    };
+    if (!statusChart) {
+        statusChart = new Chart(ctx, cfg);
+        // Click to filter
+        ctx.onclick = (evt) => {
+            const points = statusChart.getElementsAtEventForMode(evt, 'nearest', {
+                intersect: true
+            }, true);
+            if (points && points.length) {
+                const idx = points[0].index;
+                const status = ['Upcoming', 'Active', 'Completed'][idx];
+                // Toggle filter
+                state.status = (state.status === status) ? 'All' : status;
+                // Update tab UI
+                document.querySelectorAll('#statusTabs .nav-link').forEach(btn => {
+                    btn.classList.toggle('active', btn.getAttribute('data-status') === state.status);
+                    if (state.status === 'All' && btn.getAttribute('data-status') === 'All') btn.classList.add('active');
+                });
+                state.page = 1;
+                renderTable();
+            }
+        };
+    } else {
+        statusChart.data.datasets[0].data = dataArr;
+        statusChart.update();
+    }
+}
+
+// Simulate loading
+function showError(message) {
+    els.systemFeedback.innerHTML = `<div class="alert alert-danger d-flex align-items-start" role="alert"><i class="fa-solid fa-triangle-exclamation me-2 mt-1"></i><div>${message}</div><button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button></div>`;
+}
+
+function clearFeedback() {
+    els.systemFeedback.innerHTML = '';
+}
+
+function initPage() {
+    // parse query params for status quick filters
+    const params = new URLSearchParams(window.location.search);
+    const statusQ = params.get('status');
+    if (statusQ && ['active', 'completed', 'upcoming'].includes(statusQ.toLowerCase())) {
+        state.status = statusQ.charAt(0).toUpperCase() + statusQ.slice(1).toLowerCase();
+        document.querySelectorAll('#statusTabs .nav-link').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-status') === state.status);
+        });
+    }
+
+    // Loading simulation
+    setTimeout(() => {
+        state.isLoading = false;
+        clearFeedback();
+        renderTable();
+    }, 700);
+}
+
+// Start
+initPage();
+  </script>
+ </body>
+</html>
