@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Ballot | FaceID Voting
+  </title>
+  <!-- Brand typography: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <!-- Bootstrap 5 CSS -->
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" rel="stylesheet"/>
+  <!-- Font Awesome 6 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+   <!-- SweetAlert2 CSS -->
+   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css" rel="stylesheet">
+    <!-- Global theme CSS -->
+    <link href="static/style.css" rel="stylesheet"/>
+    <!-- Page-specific CSS -->
+    <link href="static/ballot_page.css" rel="stylesheet"/>
+   </link>
+  </link>
+ </head>
+ <body>
+  <!-- Header (needed on authenticated pages like ballot_page) -->
+  <!-- Voter Header: branding, sidebar toggle (mobile), search, notifications, profile dropdown, quick action -->
+  <style>
+   .app-header-voter{background:#6144a6;color:#fff}
+    .app-header-voter .navbar-brand,.app-header-voter .nav-link,.app-header-voter .dropdown-toggle{color:#fff}
+    .app-header-voter .form-control:focus{box-shadow:none;border-color:#ddd}
+    .notif-dot{position:absolute;top:.25rem;right:.25rem;width:.5rem;height:.5rem;background:#dc3545;border-radius:50%}
+  </style>
+  <nav class="navbar navbar-expand-lg app-header-voter shadow-sm">
+   <div class="container-fluid">
+    <button aria-controls="appSidebarVoter" aria-expanded="false" aria-label="Toggle sidebar" class="btn btn-outline-light d-lg-none me-2" data-bs-target="#appSidebarVoter" data-bs-toggle="collapse" type="button">
+     <i class="fa-solid fa-bars">
+     </i>
+    </button>
+    <a class="navbar-brand d-flex align-items-center" href="./voter_dashboard.html">
+     <img alt="Logo" class="me-2" onerror="this.onerror=null;this.src='https://picsum.photos/seed/logo/80/28';" src="https://dsaishared.blob.core.windows.net/uxcceleratecontainer/projects/68bd9542e1229daa603ec466/logos/logo_94009328-59f7-426f-bafe-3182305ed5e5.webp" style="height:28px;"/>
+     Voter Portal
+    </a>
+    <button aria-controls="voterNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#voterNav" data-bs-toggle="collapse" type="button">
+     <span class="navbar-toggler-icon">
+     </span>
+    </button>
+    <div class="collapse navbar-collapse" id="voterNav">
+     <form action="./voter_dashboard.html" class="d-none d-md-flex ms-auto me-3" role="search">
+      <div class="input-group input-group-sm">
+       <span class="input-group-text">
+        <i class="fa-solid fa-magnifying-glass">
+        </i>
+       </span>
+       <input aria-label="Search elections" class="form-control" name="q" placeholder="Search elections" type="search"/>
+      </div>
+     </form>
+     <ul class="navbar-nav align-items-center">
+      <li class="nav-item me-2 d-none d-md-block">
+       <a class="btn btn-light btn-sm" href="./voter_dashboard.html#active">
+        <i class="fa-solid fa-check-to-slot me-1">
+        </i>
+        Active Elections
+       </a>
+      </li>
+      <li class="nav-item me-2 position-relative">
+       <a aria-label="Notifications" class="nav-link" href="#">
+        <i class="fa-regular fa-bell">
+        </i>
+        <span class="notif-dot">
+        </span>
+       </a>
+      </li>
+      <li class="nav-item dropdown">
+       <a aria-expanded="false" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" href="#" id="voterProfileMenu" role="button">
+        <img alt="Avatar" class="rounded-circle me-2" src="https://www.gravatar.com/avatar?d=mp&amp;s=40" style="width:28px;height:28px"/>
+        <span>
+         John Doe
+        </span>
+       </a>
+       <ul class="dropdown-menu dropdown-menu-end">
+        <li>
+         <h6 class="dropdown-header">
+          Voter
+         </h6>
+        </li>
+        <li>
+         <a class="dropdown-item" href="#" onclick="return false;">
+          <i class="fa-solid fa-gear me-2">
+          </i>
+          Settings
+         </a>
+        </li>
+        <li>
+         <a class="dropdown-item" href="#" onclick="return false;">
+          <i class="fa-solid fa-circle-question me-2">
+          </i>
+          Help
+         </a>
+        </li>
+        <li>
+         <hr class="dropdown-divider"/>
+        </li>
+        <li>
+         <a class="dropdown-item" href="./index.html">
+          <i class="fa-solid fa-right-from-bracket me-2">
+          </i>
+          Logout
+         </a>
+        </li>
+       </ul>
+      </li>
+     </ul>
+    </div>
+   </div>
+  </nav>
+  <div class="app-shell d-flex">
+   <!-- Sidebar (needed on ballot page for authenticated navigation) -->
+   <!-- Voter Sidebar: role-specific navigation for authenticated voters. Responsive & collapsible groups. -->
+   <style>
+    :root { --primary-color:#6144a6; --secondary-color:#ffffff; --hover-bg: rgba(97,68,166,.08); --active-bg: rgba(97,68,166,.14); }
+      .app-sidebar-voter{width:260px;background:#fff;border-right:1px solid #eee;min-height:100vh;}
+      .app-sidebar-voter .brand{border-bottom:1px solid #eee}
+      .app-sidebar-voter .nav-link{color:#444;border-radius:.35rem;padding:.5rem .75rem}
+      .app-sidebar-voter .nav-link .fa-fw{width:1.25rem}
+      .app-sidebar-voter .nav-link:hover{background:var(--hover-bg)}
+      .app-sidebar-voter .nav-link.active{background:var(--active-bg);border-left:4px solid var(--primary-color)}
+      .app-sidebar-voter .section-title{font-size:.72rem;letter-spacing:.08em;color:#888}
+      @media (max-width: 991.98px){ .app-sidebar-voter{display:none;} }
+   </style>
+   <aside class="app-sidebar-voter d-none d-lg-block" id="appSidebarVoter">
+    <div class="brand d-flex align-items-center p-3">
+     <a class="text-decoration-none d-flex align-items-center" href="./voter_dashboard.html">
+      <img alt="Logo" class="me-2" onerror="this.onerror=null;this.src='https://picsum.photos/seed/logo2/104/26';" src="https://dsaishared.blob.core.windows.net/uxcceleratecontainer/projects/68bd9542e1229daa603ec466/logos/logo_94009328-59f7-426f-bafe-3182305ed5e5.webp" style="height:26px"/>
+      <span class="fw-semibold text-dark">
+       FaceID Voting
+      </span>
+     </a>
+    </div>
+    <div class="p-3">
+     <div class="d-flex align-items-center mb-3">
+      <img alt="User Avatar" class="rounded-circle me-2" src="https://www.gravatar.com/avatar?d=mp&amp;s=64" style="width:40px;height:40px"/>
+      <div>
+       <div class="fw-semibold" id="voterName">
+        John Doe
+       </div>
+       <div class="text-muted small">
+        Voter
+       </div>
+      </div>
+     </div>
+     <div class="mb-2 section-title text-uppercase">
+      Overview
+     </div>
+     <ul class="nav flex-column mb-3">
+      <li class="nav-item">
+       <a class="nav-link" href="./voter_dashboard.html">
+        <i class="fa-solid fa-gauge-high fa-fw me-2">
+        </i>
+        Dashboard
+       </a>
+      </li>
+     </ul>
+     <div class="mb-2 section-title text-uppercase">
+      Elections
+     </div>
+     <ul class="nav flex-column mb-3">
+      <li class="nav-item">
+       <a class="nav-link" href="./voter_dashboard.html#active">
+        <i class="fa-solid fa-check-to-slot fa-fw me-2">
+        </i>
+        Active Elections
+       </a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link" href="./voter_dashboard.html#completed">
+        <i class="fa-solid fa-square-poll-horizontal fa-fw me-2">
+        </i>
+        Completed &amp; Results
+       </a>
+      </li>
+     </ul>
+     <div class="mb-2 section-title text-uppercase">
+      Help
+     </div>
+     <ul class="nav flex-column">
+      <li class="nav-item">
+       <a class="nav-link" href="#" onclick="return false;">
+        <i class="fa-solid fa-circle-question fa-fw me-2">
+        </i>
+        How to Vote
+       </a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link" href="./privacy.html">
+        <i class="fa-solid fa-shield-halved fa-fw me-2">
+        </i>
+        Privacy
+       </a>
+      </li>
+     </ul>
+    </div>
+   </aside>
+   <!-- Main content -->
+   <main class="flex-grow-1">
+    <div class="container py-3 py-lg-4">
+     <!-- Breadcrumbs -->
+     <nav aria-label="breadcrumb" class="breadcrumb">
+      <ol class="breadcrumb m-0">
+       <li class="breadcrumb-item">
+        <a href="./voter_dashboard.html">
+         <i class="fa-solid fa-house me-1">
+         </i>
+         Dashboard
+        </a>
+       </li>
+       <li class="breadcrumb-item">
+        <a href="./voter_dashboard.html#active">
+         Active Elections
+        </a>
+       </li>
+       <li aria-current="page" class="breadcrumb-item active">
+        Ballot
+       </li>
+      </ol>
+     </nav>
+     <!-- Page header -->
+     <div class="page-header mt-3">
+      <div class="d-flex align-items-center gap-3">
+       <div class="badge-soft info">
+        <i class="fa-solid fa-id-card-clip me-1">
+        </i>
+        Casting Vote
+       </div>
+      </div>
+      <div class="view-switcher d-none d-md-inline-flex">
+       <div class="option active">
+        <i class="fa-solid fa-list">
+        </i>
+       </div>
+       <div class="option">
+        <i class="fa-solid fa-grip">
+        </i>
+       </div>
+      </div>
+     </div>
+     <!-- System feedback area -->
+     <div aria-live="polite" class="mb-3" id="systemFeedback">
+     </div>
+     <!-- Ballot Form Card -->
+     <form class="app-card" id="ballotForm" novalidate="">
+      <div class="card-header">
+       <div class="title d-flex align-items-center gap-2">
+        <i class="fa-solid fa-ballot-check text-primary">
+        </i>
+        <span class="widget-title" id="electionTitle">
+         Loading election...
+        </span>
+       </div>
+       <div class="text-muted small" id="stepIndicator">
+        <i class="fa-regular fa-circle-dot me-1">
+        </i>
+        Step 2 of 3: Select
+       </div>
+      </div>
+      <div class="card-body">
+       <p class="mb-4 text-muted" id="electionDescription">
+        Fetching details for your election. Please wait...
+       </p>
+       <!-- Ballot meta -->
+       <div class="row g-2 mb-4">
+        <div class="col-md-6">
+         <div class="badge-soft primary">
+          <i class="fa-solid fa-user-check me-1">
+          </i>
+          <span id="ballotTypeLabel">
+           Ballot Type: Single-choice
+          </span>
+         </div>
+        </div>
+        <div class="col-md-6 text-md-end">
+         <button class="btn btn-light btn-sm" disabled="" id="clearSelectionBtn" type="button">
+          <i class="fa-solid fa-eraser me-1">
+          </i>
+          Clear selection
+         </button>
+        </div>
+       </div>
+       <!-- Candidate list -->
+       <div class="row g-3" id="candidateGrid">
+        <!-- Loading skeleton placeholders -->
+        <div class="col-12 col-md-6 col-xl-4">
+         <div class="card p-3">
+          <div class="d-flex align-items-center gap-3">
+           <span class="avatar skeleton" style="height:56px;width:56px;border-radius:50%">
+           </span>
+           <div class="flex-grow-1">
+            <div class="skeleton mb-2" style="height:14px;width:70%">
+            </div>
+            <div class="skeleton" style="height:12px;width:40%">
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-4">
+         <div class="card p-3">
+          <div class="d-flex align-items-center gap-3">
+           <span class="avatar skeleton" style="height:56px;width:56px;border-radius:50%">
+           </span>
+           <div class="flex-grow-1">
+            <div class="skeleton mb-2" style="height:14px;width:70%">
+            </div>
+            <div class="skeleton" style="height:12px;width:40%">
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-4">
+         <div class="card p-3">
+          <div class="d-flex align-items-center gap-3">
+           <span class="avatar skeleton" style="height:56px;width:56px;border-radius:50%">
+           </span>
+           <div class="flex-grow-1">
+            <div class="skeleton mb-2" style="height:14px;width:70%">
+            </div>
+            <div class="skeleton" style="height:12px;width:40%">
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+      </div>
+      <!-- Action footer (sticky within card) -->
+      <div class="card-footer d-flex align-items-center justify-content-between flex-wrap gap-2">
+       <div class="d-flex align-items-center gap-2">
+        <div class="badge-soft secondary" id="selectionSummary">
+         <i class="fa-solid fa-square-check me-1">
+         </i>
+         0 selected
+        </div>
+        <small class="text-muted" id="selectionHint">
+         Select 1 candidate
+        </small>
+       </div>
+       <div class="d-flex align-items-center gap-2">
+        <a class="btn btn-light" href="./voter_dashboard.html">
+         <i class="fa-solid fa-arrow-left me-1">
+         </i>
+         Back
+        </a>
+        <button class="btn btn-primary" id="reviewBtn" type="submit">
+         <i class="fa-solid fa-eye me-1">
+         </i>
+         Review My Vote
+        </button>
+       </div>
+      </div>
+     </form>
+     <!-- Info note -->
+     <div class="alert alert-info mt-3" role="alert">
+      <i class="fa-solid fa-shield-halved me-2">
+      </i>
+      Your selections are private. You will confirm your choices on the next page before final submission.
+     </div>
+    </div>
+   </main>
+  </div>
+  <!-- Footer (needed across app pages) -->
+  <!-- Voter Footer with quick shortcuts and legal links -->
+  <style>
+   .app-footer-voter{background:#f8f9fa;border-top:1px solid #eee;color:#555}
+    .app-footer-voter a{color:#6144a6;text-decoration:none}
+    .app-footer-voter a:hover{text-decoration:underline}
+  </style>
+  <footer class="app-footer-voter py-3 mt-auto">
+   <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
+    <div class="mb-2 mb-md-0">
+     <a class="btn btn-outline-secondary btn-sm me-2" href="./voter_dashboard.html">
+      <i class="fa-solid fa-house me-1">
+      </i>
+      Dashboard
+     </a>
+     <a class="btn btn-outline-secondary btn-sm" href="./voter_results.html">
+      <i class="fa-solid fa-square-poll-horizontal me-1">
+      </i>
+      Results
+     </a>
+    </div>
+    <div class="d-flex align-items-center">
+     <img alt="Logo" class="me-2" onerror="this.onerror=null;this.src='https://picsum.photos/seed/logo3/72/18';" src="https://dsaishared.blob.core.windows.net/uxcceleratecontainer/projects/68bd9542e1229daa603ec466/logos/logo_94009328-59f7-426f-bafe-3182305ed5e5.webp" style="height:18px"/>
+     <small class="me-3">
+      © 2025 FaceID Voting
+     </small>
+     <a class="small me-3" href="./terms.html">
+      Terms
+     </a>
+     <a class="small" href="./privacy.html">
+      Privacy
+     </a>
+    </div>
+   </div>
+  </footer>
+  <!-- Toast container for system feedback -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1060">
+   <div aria-atomic="true" aria-live="assertive" class="toast align-items-center text-bg-dark border-0" id="ballotToast" role="alert">
+    <div class="d-flex">
+     <div class="toast-body" id="toastMessage">
+      Selection updated
+     </div>
+     <button aria-label="Close" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" type="button">
+     </button>
+    </div>
+   </div>
+  </div>
+  <!-- Bootstrap 5 JS -->
+  <script crossorigin="anonymous" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+  </script>
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js">
+  </script>
+  <!-- Page script -->
+  <script>
+   // Apply Poppins font on this page
+document.addEventListener('DOMContentLoaded', function() {
+    document.body.style.fontFamily = "'Poppins', var(--font-sans)";
+});
+
+// State
+const state = {
+    electionId: null,
+    electionDetails: null,
+    ballotType: 'single', // 'single' | 'multiple'
+    maxSelections: 1,
+    candidates: [],
+    selectedCandidateIds: new Set(),
+    isLoading: true,
+    error: null
+};
+
+// Helpers
+const qs = (sel, el = document) => el.querySelector(sel);
+const qsa = (sel, el = document) => Array.from(el.querySelectorAll(sel));
+
+const urlParams = new URLSearchParams(window.location.search);
+state.electionId = urlParams.get('electionId') || '2025-student-council';
+const paramType = urlParams.get('type');
+const paramMax = parseInt(urlParams.get('max') || '0', 10);
+
+if (paramType === 'multiple') {
+    state.ballotType = 'multiple';
+    state.maxSelections = Math.max(2, isNaN(paramMax) ? 3 : paramMax);
+} else {
+    state.ballotType = 'single';
+    state.maxSelections = 1;
+}
+
+const elTitle = qs('#electionTitle');
+const elDesc = qs('#electionDescription');
+const elGrid = qs('#candidateGrid');
+const elReviewBtn = qs('#reviewBtn');
+const elClearBtn = qs('#clearSelectionBtn');
+const elSummary = qs('#selectionSummary');
+const elHint = qs('#selectionHint');
+const elTypeLabel = qs('#ballotTypeLabel');
+const feedback = qs('#systemFeedback');
+
+function updateMeta() {
+    elTypeLabel.textContent = `Ballot Type: ${state.ballotType === 'single' ? 'Single-choice' : 'Multiple-choice'}`;
+    elHint.textContent = state.ballotType === 'single' ? 'Select 1 candidate' : `Select up to ${state.maxSelections} candidates`;
+}
+
+function setLoadingUI() {
+    elReviewBtn.disabled = true;
+    elClearBtn.disabled = true;
+    feedback.innerHTML = '';
+}
+
+function showError(message) {
+    feedback.innerHTML = `<div class="alert alert-danger" role="alert"><i class='fa-solid fa-triangle-exclamation me-2'></i>${message}</div>`;
+}
+
+function showToast(message) {
+    const toastEl = qs('#ballotToast');
+    qs('#toastMessage').textContent = message;
+    const toast = bootstrap.Toast.getOrCreateInstance(toastEl, {
+        delay: 2200
+    });
+    toast.show();
+}
+
+function renderElectionHeader() {
+    if (!state.electionDetails) return;
+    elTitle.textContent = state.electionDetails.title;
+    elDesc.textContent = state.electionDetails.description;
+}
+
+function candidateCardTemplate(c, inputType, checked) {
+    const inputId = `cand_${c.id}`;
+    const selectedClass = checked ? ' selected' : '';
+    return `
+        <div class="col-12 col-md-6 col-xl-4">
+          <label class="candidate-card card selectable${selectedClass}" data-candidate-id="${c.id}" for="${inputId}" tabindex="0" aria-pressed="${checked}" role="button">
+            <div class="card-body d-flex align-items-center gap-3">
+              <img class="rounded-circle flex-shrink-0" src="${c.photo}" alt="${c.name}" style="width:56px;height:56px;object-fit:cover" onerror="this.onerror=null;this.src='https://picsum.photos/seed/cand${c.id}/112/112';">
+              <div class="flex-grow-1">
+                <div class="d-flex align-items-center justify-content-between">
+                  <h5 class="mb-1">${c.name}</h5>
+                  <span class="select-indicator" aria-hidden="true"><i class="fa-solid ${checked ? 'fa-circle-check text-primary' : 'fa-circle'}"></i></span>
+                </div>
+                <div class="text-muted small mb-1">${c.affiliation || 'Independent'}</div>
+                <div class="text-muted small two-line">${c.bio || ''}</div>
+              </div>
+            </div>
+            <div class="visually-hidden">
+              <input type="${inputType}" name="candidate" value="${c.id}" id="${inputId}" ${checked ? 'checked' : ''} aria-label="Select ${c.name}">
+            </div>
+          </label>
+        </div>
+      `;
+}
+
+function renderCandidates() {
+    if (!state.candidates?.length) {
+        elGrid.innerHTML = '<div class="col-12"><div class="empty-state"><div class="text-muted">No candidates available.</div></div></div>';
+        return;
+    }
+    const inputType = state.ballotType === 'single' ? 'radio' : 'checkbox';
+    const html = state.candidates.map(c => candidateCardTemplate(c, inputType, state.selectedCandidateIds.has(c.id))).join('');
+    elGrid.innerHTML = html;
+
+    // Bind events
+    qsa('.candidate-card', elGrid).forEach(card => {
+        const id = card.getAttribute('data-candidate-id');
+        const input = qs('input', card);
+        const select = () => {
+            onCandidateToggle(id, input);
+        };
+        card.addEventListener('click', (e) => {
+            // Avoid double toggling when clicking the input
+            if (e.target && e.target.tagName.toLowerCase() === 'input') return;
+            select();
+        });
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                select();
+            }
+        });
+        input.addEventListener('change', () => onCandidateToggle(id, input));
+    });
+}
+
+function onCandidateToggle(idStr, inputEl) {
+    const id = isNaN(Number(idStr)) ? idStr : Number(idStr);
+    const wasSelected = state.selectedCandidateIds.has(id);
+
+    if (state.ballotType === 'single') {
+        state.selectedCandidateIds.clear();
+        state.selectedCandidateIds.add(id);
+    } else {
+        if (wasSelected) {
+            state.selectedCandidateIds.delete(id);
+        } else {
+            if (state.selectedCandidateIds.size >= state.maxSelections) {
+                showToast(`You can select up to ${state.maxSelections} candidates.`);
+                return; // do not add
+            }
+            state.selectedCandidateIds.add(id);
+        }
+    }
+    updateSelectionUI();
+}
+
+function updateSelectionUI() {
+    // Update card visuals
+    qsa('.candidate-card', elGrid).forEach(card => {
+        const id = isNaN(Number(card.getAttribute('data-candidate-id'))) ? card.getAttribute('data-candidate-id') : Number(card.getAttribute('data-candidate-id'));
+        const selected = state.selectedCandidateIds.has(id);
+        card.classList.toggle('selected', selected);
+        const icon = qs('.select-indicator i', card);
+        if (icon) icon.className = `fa-solid ${selected ? 'fa-circle-check text-primary' : 'fa-circle'}`;
+        const input = qs('input', card);
+        if (input) input.checked = selected;
+        card.setAttribute('aria-pressed', selected ? 'true' : 'false');
+    });
+
+    // Update summary & buttons
+    const count = state.selectedCandidateIds.size;
+    elSummary.innerHTML = `<i class="fa-solid fa-square-check me-1"></i>${count} selected`;
+    elClearBtn.disabled = count === 0;
+    elReviewBtn.disabled = count === 0;
+
+    if (state.ballotType === 'single') {
+        elHint.textContent = 'Select 1 candidate';
+    } else {
+        elHint.textContent = `Select up to ${state.maxSelections} candidates`;
+    }
+}
+
+function simulateFetch() {
+    setLoadingUI();
+    // Simulate async fetch
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            const details = {
+                id: state.electionId,
+                title: '2025 Student Council President Election',
+                description: 'Choose the candidate you believe will best represent the student body. Review your vote before final submission.'
+            };
+            const candidates = [{
+                id: 101,
+                name: 'Alex Johnson',
+                affiliation: 'Unity Party',
+                photo: 'https://picsum.photos/seed/alex/112/112',
+                bio: 'Third-year Economics major; focuses on campus safety and inclusivity.'
+            }, {
+                id: 102,
+                name: 'Priya Sharma',
+                affiliation: 'Forward Together',
+                photo: 'https://picsum.photos/seed/priya/112/112',
+                bio: 'Computer Science; plans for tech-enabled student services and transparency.'
+            }, {
+                id: 103,
+                name: 'Miguel Santos',
+                affiliation: 'Green Campus',
+                photo: 'https://picsum.photos/seed/miguel/112/112',
+                bio: 'Environmental Studies; committed to sustainability and green initiatives.'
+            }, {
+                id: 104,
+                name: 'Emily Chen',
+                affiliation: 'Open Voices',
+                photo: 'https://picsum.photos/seed/emily/112/112',
+                bio: 'Political Science; prioritizes mental health and student advocacy.'
+            }, {
+                id: 105,
+                name: 'Liam O’Connor',
+                affiliation: 'Independent',
+                photo: 'https://picsum.photos/seed/liam/112/112',
+                bio: 'Mathematics; emphasizes fiscal responsibility and scholarships.'
+            }, {
+                id: 106,
+                name: 'Zara Ali',
+                affiliation: 'Bridge Builders',
+                photo: 'https://picsum.photos/seed/zara/112/112',
+                bio: 'Sociology; aims to bridge gaps among clubs and student communities.'
+            }];
+            resolve({
+                details,
+                candidates
+            });
+        }, 800);
+    });
+}
+
+function initBallot() {
+    updateMeta();
+    simulateFetch()
+        .then(({
+            details,
+            candidates
+        }) => {
+            state.electionDetails = details;
+            state.candidates = candidates;
+            state.isLoading = false;
+            renderElectionHeader();
+            renderCandidates();
+            updateSelectionUI();
+        })
+        .catch(err => {
+            console.error(err);
+            state.error = 'Failed to load ballot. Please try again later.';
+            showError(state.error);
+        });
+}
+
+// Clear selection
+elClearBtn.addEventListener('click', () => {
+    state.selectedCandidateIds.clear();
+    updateSelectionUI();
+});
+
+// Submit handler -> Review
+qs('#ballotForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const selected = Array.from(state.selectedCandidateIds);
+    if (selected.length === 0) return;
+
+    const selectedNames = state.candidates.filter(c => selected.includes(c.id)).map(c => c.name);
+    const isMultiple = state.ballotType === 'multiple';
+
+    Swal.fire({
+        title: 'Review your selection',
+        html: `<div class="text-start">
+                <div class="mb-2"><strong>Election:</strong> ${state.electionDetails?.title || state.electionId}</div>
+                <div class="mb-2"><strong>${isMultiple ? 'Selected candidates' : 'Selected candidate'}:</strong><br>${selectedNames.map(n => `<span class='badge bg-primary-subtle text-dark me-1 mb-1'>${n}</span>`).join(' ')}</div>
+                <div class="small text-muted">You can still make changes on the next page before submitting.</div>
+               </div>`,
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Proceed to Review',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#6144a6'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Persist selection for review page
+            const payload = {
+                electionId: state.electionId,
+                ballotType: state.ballotType,
+                maxSelections: state.maxSelections,
+                selectedCandidateIds: selected
+            };
+            try {
+                sessionStorage.setItem('pendingVote', JSON.stringify(payload));
+            } catch (e) {}
+
+            const qp = new URLSearchParams({
+                electionId: state.electionId
+            }).toString();
+            window.location.href = `./review_vote.html?${qp}`;
+        }
+    });
+});
+
+// Initialize
+initBallot();
+  </script>
+ </body>
+</html>

@@ -1,0 +1,50 @@
+/* review_vote.css - Page-specific styles for Vote Review Page */
+/* Use Poppins across this page */
+body {
+    font-family: "Poppins", var(--font-sans)
+    }
+/* Layout adjustments when sidebar is present */
+@media (min-width: 992px) {
+    .app-sidebar-voter + main {
+        width: calc(100% - 260px)
+        }
+    }
+/* Review card styling */
+.review-card {
+    max-width: 980px
+    }
+/* Selected card subtle emphasis */
+.selected-card {
+    background: var(--surface-0);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease
+    }
+.selected-card:hover {
+    transform: translatey(-1px);
+    box-shadow: var(--shadow-1)
+    }
+/* Confirm footer buttons spacing on small screens */
+@media (max-width: 575.98px) {
+    .review-card .card-footer {
+        flex-direction: column-reverse;
+        align-items: stretch
+        }
+    #confirmVoteBtn, #goBackBtn {
+        width: 100%
+        }
+    }
+/* Breadcrumb spacing tweak */
+.breadcrumb {
+    margin-bottom: var(--space-2)
+    }
+/* Table header cursor and focus */
+#summaryTable thead th[role="button"] {
+    cursor: pointer;
+    user-select: none
+    }
+#summaryTable thead th[role="button"]:hover {
+    color: var(--color-primary)
+    }
+/* Alert icons alignment */
+.alert i {
+    line-height: 1
+    }

@@ -1,0 +1,48 @@
+/* voter_results.css - page-specific styles for voter_results */
+/* Apply brand typography site-wide for this page */
+body {
+    font-family: "Poppins", var(--font-sans)
+    }
+/* Ensure main content clears fixed header (JS also adjusts) */
+.app-header-voter + * {
+    margin-top: 0
+    }
+/* Chart containers */
+#resultsBarChart {
+    min-height: 280px
+    }
+/* Sortable table headers */
+#resultsTable thead th.sortable {
+    user-select: none
+    }
+#resultsTable thead th.sortable:hover {
+    background: var(--neutral-soft)
+    }
+/* Fine-tune badge look in candidate cell */
+.badge.bg-success {
+    font-weight: 700
+    }
+/* Turnout card sizing on small screens */
+@media (max-width: 575.98px) {
+    #turnoutChart {
+        max-width: 220px;
+        max-height: 220px
+        }
+    }
+/* Offcanvas sidebar width alignment with desktop sidebar */
+.offcanvas-start {
+    width: 260px
+    }
+/* Tweak breadcrumb spacing under fixed header */
+.breadcrumb {
+    margin-top: 0.25rem
+    }
+/* Keep results cards consistent */
+#resultsVisualization .app-card .card-body {
+    padding: 16px
+    }
+/* Improve skeleton visibility inside metrics */
+.metric-card .skeleton {
+    display: inline-block;
+    width: 120px
+    }
