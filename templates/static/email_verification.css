@@ -1,0 +1,40 @@
+/* Email Verification Page - page-specific styles */
+/* Prefer Poppins for this page */
+body {
+    font-family: "Poppins", var(--font-sans)
+    }
+/* Layout helpers */
+.verification-card {
+    overflow: hidden
+    }
+/* Hero icon next to text */
+.verification-hero-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 1.25rem
+    }
+/* Code input visual emphasis */
+.code-input {
+    font-family: var(--font-mono);
+    font-size: 1.25rem;
+    letter-spacing: 0.2em;
+    text-align: center
+    }
+/* Resend cooldown appearance */
+#resendBtn:disabled {
+    pointer-events: none;
+    opacity: 0.6
+    }
+#resendCooldownText {
+    min-width: 160px
+    }
+/* Make main container readable on large screens next to sidebar */
+@media (min-width: 992px) {
+    main .container {
+        max-width: 920px
+        }
+    }
+/* Breadcrumb spacing tweak */
+.breadcrumb {
+    margin-bottom: 0.75rem
+    }

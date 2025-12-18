@@ -1,0 +1,71 @@
+/* Election Monitoring Page (election_monitoring.css) */
+/* Layout helpers specific to this page */
+main .container-fluid {
+    max-width: var(--container-max)
+    }
+/* Turnout progress bar label overlay */
+.turnout-progress {
+    height: 18px
+    }
+.turnout-progress .turnout-label {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 600;
+    color: var(--text-on-primary);
+    mix-blend-mode: difference;
+    /* improves readability on colored bar */
+    }
+/* Chart area should be responsive while maintaining height */
+#turnoutChart {
+    width: 100%;
+    min-height: 260px
+    }
+/* Sortable headers affordance */
+.table-theme th.sortable {
+    user-select: none
+    }
+.table-theme th.sortable:hover {
+    background: var(--neutral-soft)
+    }
+/* Header and action buttons spacing adjustments */
+.page-header {
+    margin-bottom: var(--space-4)
+    }
+.navigation-controls .btn {
+    white-space: nowrap
+    }
+/* Status badge alignment */
+#electionStatusBadge {
+    display: inline-flex;
+    align-items: center
+    }
+/* Fix footer spacing with content */
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column
+    }
+.app-footer-admin {
+    margin-top: auto
+    }
+/* Adjust main layout when sidebar present */
+@media (min-width: 992px) {
+    .app-header-admin {
+        position: sticky;
+        top: 0;
+        z-index: var(--z-nav)
+        }
+    }
+/* Improve metric card icons */
+.metric-card i {
+    font-size: 1.1rem
+    }
+/* Toast color scheme alignment */
+#updateToast.toast {
+    background-color: var(--color-primary) !important
+    }
+#updateToast .toast-body {
+    color: var(--text-on-primary)
+    }

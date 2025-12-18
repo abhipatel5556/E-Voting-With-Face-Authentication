@@ -1,0 +1,75 @@
+/* Login Page specific CSS (login_page.css) */
+/* Typography override for this page */
+body {
+    font-family: "Poppins", var(--font-sans)
+    }
+/* Centered login card width and spacing */
+.login-card {
+    max-width: 720px
+    }
+/* Webcam viewport styling */
+.face-viewport {
+    width: 100%;
+    aspect-ratio: 4/3;
+    position: relative
+    }
+.face-viewport video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #000
+    }
+/* Circular overlay guideline */
+.face-overlay {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: min(62%, 360px);
+    aspect-ratio: 1/1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.12);
+    pointer-events: none
+    }
+/* Scan overlay (processing state) */
+.scan-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.7);
+    display: grid;
+    place-items: center;
+    text-align: center
+    }
+/* Make OTP link visually stronger after failures */
+.link-otp {
+    color: var(--color-info);
+    text-decoration: none
+    }
+.link-otp:hover {
+    text-decoration: underline
+    }
+.highlight-otp {
+    font-weight: 700;
+    animation: pulseGlow 2.4s ease-in-out infinite;
+    color: var(--color-primary) !important
+    }
+/* Navbar toggler icon for custom colored header */
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.6)
+    }
+.navbar-toggler-icon {
+    filter: invert(1);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255, 0.85)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e")
+    }
+/* Demo table alignments */
+#credsTable code {
+    font-family: var(--font-mono)
+    }
+.copy-btn {
+    white-space: nowrap
+    }
+/* Responsive tweaks */
+@media (max-width: 575.98px) {
+    .face-overlay {
+        width: 78%
+        }
+    }
