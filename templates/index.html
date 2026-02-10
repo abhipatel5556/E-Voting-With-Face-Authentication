@@ -13,9 +13,9 @@
    <!-- Font Awesome 6 -->
    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
    <!-- App Theme -->
-   <link href="static/style.css" rel="stylesheet"/>
+   <link href="/static/style.css" rel="stylesheet"/>
    <!-- Page-specific CSS -->
-   <link href="static/login_page.css" rel="stylesheet"/>
+   <link href="/static/login_page.css" rel="stylesheet"/>
   </link>
  </head>
  <body class="d-flex flex-column min-vh-100">
@@ -670,37 +670,36 @@ async function handleStartScan() {
     await performFaceVerification();
 }
 
-// Manual demo login
-function tryDemoLogin(ev) {
+// Username/password login (backend first, demo fallback)
+async function tryDemoLogin(ev) {
     ev.preventDefault();
     const u = (els.demoUsername.value || '').trim();
     const p = (els.demoPassword.value || '').trim();
     if (!u || !p) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Missing details',
-            text: 'Please enter both username and password'
-        });
+        Swal.fire({icon: 'warning', title: 'Missing details', text: 'Please enter both username and password'});
         return;
     }
+
+    try {
+        const res = await fetch('/api/auth/login-password', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username: u, password: p})
+        });
+        const data = await res.json();
+        if (res.ok && data.redirect) {
+            Swal.fire({icon: 'success', title: 'Login successful', text: 'Redirecting…', timer: 1000, showConfirmButton: false});
+            setTimeout(() => { window.location.href = data.redirect; }, 900);
+            return;
+        }
+    } catch (_) {}
+
     const match = demoUsers.find(d => d.u === u && d.p === p);
     if (match) {
-        Swal.fire({
-            icon: 'success',
-            title: 'Login successful',
-            text: `Welcome, ${match.role}! Redirecting…`,
-            timer: 1200,
-            showConfirmButton: false
-        });
-        setTimeout(() => {
-            window.location.href = match.to;
-        }, 1100);
+        Swal.fire({icon: 'success', title: 'Demo login', text: `Welcome, ${match.role}! Redirecting…`, timer: 1200, showConfirmButton: false});
+        setTimeout(() => { window.location.href = match.to; }, 1100);
     } else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Invalid credentials',
-            text: 'Please check the username and password.'
-        });
+        Swal.fire({icon: 'error', title: 'Invalid credentials', text: 'Please check username and password.'});
     }
 }
 
