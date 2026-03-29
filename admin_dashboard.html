@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Admin Dashboard • FaceID Voting
+  </title>
+  <!-- Brand Typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <!-- Bootstrap 5 -->
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet"/>
+  <!-- Font Awesome 6 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+   <!-- SweetAlert2 -->
+   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.min.css" rel="stylesheet">
+    <!-- Global Theme Styles -->
+    <link href="static\style.css" rel="stylesheet"/>
+    <!-- Page-specific Styles -->
+    <link href="static\admin_dashboard.css" rel="stylesheet"/>
+    <style>
+     /* fallback for header toggler icon visibility on purple bg */
+    .app-header-admin .navbar-toggler { border-color: rgba(255,255,255,.4); }
+    .app-header-admin .navbar-toggler-icon { filter: invert(1) contrast(200%); }
+    </style>
+   </link>
+  </link>
+ </head>
+ <body>
+  <!-- Admin Header: branding, sidebar toggle (mobile), global search, notifications, quick action 'Create Election', profile menu -->
+  <nav class="navbar navbar-expand-lg app-header-admin shadow-sm">
+   <div class="container-fluid">
+    <button aria-controls="appSidebarAdmin" aria-expanded="false" aria-label="Toggle sidebar" class="btn btn-outline-light d-lg-none me-2" data-bs-target="#appSidebarAdmin" data-bs-toggle="collapse" type="button">
+     <i class="fa-solid fa-bars">
+     </i>
+    </button>
+    <a class="navbar-brand d-flex align-items-center" href="./admin_dashboard.html">
+     <img alt="Logo" class="me-2" onerror="this.onerror=null;this.src='https://picsum.photos/seed/faceid/56/28'" src="https://dsaishared.blob.core.windows.net/uxcceleratecontainer/projects/68bd9542e1229daa603ec466/logos/logo_94009328-59f7-426f-bafe-3182305ed5e5.webp" style="height:28px;"/>
+     Admin Console
+    </a>
+    <button aria-controls="adminNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#adminNav" data-bs-toggle="collapse" type="button">
+     <span class="navbar-toggler-icon">
+     </span>
+    </button>
+    <div class="collapse navbar-collapse" id="adminNav">
+     <form action="./elections_list.html" class="d-none d-md-flex ms-auto me-3" role="search">
+      <div class="input-group input-group-sm">
+       <span class="input-group-text">
+        <i class="fa-solid fa-magnifying-glass">
+        </i>
+       </span>
+       <input aria-label="Search" class="form-control" name="q" placeholder="Search elections or voters" type="search"/>
+      </div>
+     </form>
+     <ul class="navbar-nav align-items-center">
+      <li class="nav-item me-2 d-none d-md-block">
+       <a class="btn btn-light btn-sm" href="./election_creation.html">
+        <i class="fa-solid fa-plus me-1">
+        </i>
+        Create Election
+       </a>
+      </li>
+      <li class="nav-item me-2 position-relative">
+       <a aria-label="Notifications" class="nav-link" href="#" id="notifBell">
+        <i class="fa-regular fa-bell">
+        </i>
+        <span class="notif-dot">
+        </span>
+       </a>
+      </li>
+      <li class="nav-item dropdown">
+       <a aria-expanded="false" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown" href="#" id="adminProfileMenu" role="button">
+        <img alt="Avatar" class="rounded-circle me-2" src="gaurav.jpg" style="width:28px;height:28px"/>
+        <span>
+         Gaurav Gupta
+        </span>
+       </a>
+       <ul class="dropdown-menu dropdown-menu-end">
+        <li>
+         <h6 class="dropdown-header">
+          Administrator
+         </h6>
+        </li>
+        <li>
+         <a class="dropdown-item" href="#" onclick="return false;">
+          <i class="fa-solid fa-gear me-2">
+          </i>
+          Settings
+         </a>
+        </li>
+        <li>
+         <a class="dropdown-item" href="#" onclick="return false;">
+          <i class="fa-solid fa-book-open-reader me-2">
+          </i>
+          Admin Guide
+         </a>
+        </li>
+        <li>
+         <hr class="dropdown-divider"/>
+        </li>
+        <li>
+         <a class="dropdown-item" href="./index.html">
+          <i class="fa-solid fa-right-from-bracket me-2">
+          </i>
+          Logout
+         </a>
+        </li>
+       </ul>
+      </li>
+     </ul>
+    </div>
+   </div>
+  </nav>
+  <div class="d-lg-flex">
+   <!-- Admin Sidebar: role-specific navigation -->
+   <aside class="app-sidebar-admin collapse d-lg-block" id="appSidebarAdmin">
+    
+    <div class="p-3">
+     <div class="d-flex align-items-center mb-3">
+      <img alt="Admin Avatar" class="rounded-circle me-2" src="https://www.gravatar.com/avatar?d=mp&s=64" style="width:40px;height:40px"/>
+      <div>
+       <div class="fw-semibold" id="adminName">
+        Gaurav Gupta
+       </div>
+       <div class="text-muted small">
+        Administrator
+       </div>
+      </div>
+     </div>
+     <div class="mb-2 section-title text-uppercase">
+      Overview
+     </div>
+     <ul class="nav flex-column mb-3">
+      <li class="nav-item">
+       <a class="nav-link active" href="./admin_dashboard.html">
+        <i class="fa-solid fa-gauge-high fa-fw me-2">
+        </i>
+        Dashboard
+       </a>
+      </li>
+     </ul>
+     <div class="mb-2 section-title text-uppercase">
+      Elections
+     </div>
+     <ul class="nav flex-column mb-1">
+      <li class="nav-item">
+       <a class="nav-link" href="./elections_list.html">
+        <i class="fa-solid fa-list-check fa-fw me-2">
+        </i>
+        All Elections
+       </a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link" href="./election_creation.html">
+        <i class="fa-solid fa-plus fa-fw me-2">
+        </i>
+        Create New
+       </a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link" href="./elections_list.html?status=active">
+        <i class="fa-solid fa-signal fa-fw me-2">
+        </i>
+        Active &amp; Monitoring
+       </a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link" href="./elections_list.html?status=completed">
+        <i class="fa-solid fa-chart-column fa-fw me-2">
+        </i>
+        Completed &amp; Results
+       </a>
+      </li>
+     </ul>
+     <div class="mb-2 section-title text-uppercase mt-3">
+      Voters
+     </div>
+     <ul class="nav flex-column mb-3">
+      <li class="nav-item">
+       <a class="nav-link" href="./voter_management.html">
+        <i class="fa-solid fa-users fa-fw me-2">
+        </i>
+        Manage Voters
+       </a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link" href="./voter_management.html?status=pending">
+        <i class="fa-solid fa-user-check fa-fw me-2">
+        </i>
+        Pending Approvals
+       </a>
+      </li>
+     </ul>
+     <div class="mb-2 section-title text-uppercase">
+      Resources
+     </div>
+     <ul class="nav flex-column">
+      <li class="nav-item">
+       <a class="nav-link" href="./admin_guide.html" onclick="return false;">
+        <i class="fa-solid fa-book-open-reader fa-fw me-2">
+        </i>
+        Admin Guide
+       </a>
+      </li>
+      <li class="nav-item">
+       <a class="nav-link" href="./privacy.html">
+        <i class="fa-solid fa-shield-halved fa-fw me-2">
+        </i>
+        Privacy
+       </a>
+      </li>
+     </ul>
+    </div>
+   </aside>
+   <!-- Main Content -->
+   <main class="flex-grow-1" id="mainContent">
+    <div class="container-fluid py-4">
+     <div class="page-header align-items-center mb-3">
+      <div class="d-flex align-items-center gap-3">
+       <h1 class="page-title m-0">
+        Admin Dashboard
+       </h1>
+       <span class="badge-soft success">
+        All systems operational
+       </span>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+       <button class="btn btn-light btn-sm" id="refreshBtn">
+        <i class="fa-solid fa-rotate">
+        </i>
+        Refresh
+       </button>
+       <div class="view-switcher d-none d-md-inline-flex">
+        <div class="option active">
+         <i class="fa-solid fa-table-cells-large me-1">
+         </i>
+         Dashboard
+        </div>
+        <a class="option text-decoration-none" href="./elections_list.html">
+         <i class="fa-solid fa-table-list me-1">
+         </i>
+         Elections
+        </a>
+       </div>
+      </div>
+     </div>
+     <!-- Dashboard Summary: Key Metrics -->
+     <div class="row g-3 mb-4" id="summaryRow">
+      <!-- Total Voters -->
+      <div class="col-12 col-sm-6 col-xl-4">
+       <div class="metric-card h-100 stat-card" id="cardTotalVoters" role="button" tabindex="0">
+        <div class="d-flex align-items-center justify-content-between">
+         <div>
+          <div class="metric-title">
+           Total Voters
+          </div>
+          <div class="metric-value" id="totalVoters">
+           —
+          </div>
+         </div>
+         <div class="stat-icon bg-primary-soft text-primary">
+          <i class="fa-solid fa-users">
+          </i>
+         </div>
+        </div>
+        <div class="small text-muted">
+         Approved &amp; registered voters
+        </div>
+       </div>
+      </div>
+      <!-- Active Elections -->
+      <div class="col-12 col-sm-6 col-xl-4">
+       <div class="metric-card h-100 stat-card" id="cardActiveElections" role="button" tabindex="0">
+        <div class="d-flex align-items-center justify-content-between">
+         <div>
+          <div class="metric-title">
+           Active Elections
+          </div>
+          <div class="metric-value" id="activeElections">
+           —
+          </div>
+         </div>
+         <div class="stat-icon bg-info-soft text-info">
+          <i class="fa-solid fa-signal">
+          </i>
+         </div>
+        </div>
+        <div class="small text-muted">
+         Currently running
+        </div>
+       </div>
+      </div>
+      <!-- Pending Approvals -->
+      <div class="col-12 col-sm-6 col-xl-4">
+       <div class="metric-card h-100 stat-card" id="cardPendingApprovals" role="button" tabindex="0">
+        <div class="d-flex align-items-center justify-content-between">
+         <div>
+          <div class="metric-title">
+           Pending Approvals
+          </div>
+          <div class="metric-value" id="pendingApprovals">
+           —
+          </div>
+         </div>
+         <div class="stat-icon bg-warning-soft text-warning">
+          <i class="fa-solid fa-user-check">
+          </i>
+         </div>
+        </div>
+        <div class="small text-muted">
+         Registrations awaiting review
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- Quick Actions -->
+     <div class="card mb-4">
+      <div class="card-header">
+       <div class="widget-title">
+        Quick Actions
+       </div>
+       <div class="text-muted small">
+        Frequently used admin tasks
+       </div>
+      </div>
+      <div class="card-body">
+       <div class="row g-2 g-md-3">
+        <div class="col-12 col-md-auto">
+         <button class="btn btn-primary" id="btnCreateElection">
+          <i class="fa-solid fa-plus me-2">
+          </i>
+          Create New Election
+         </button>
+        </div>
+        <div class="col-12 col-md-auto">
+         <a class="btn btn-info text-white" href="./voter_management.html">
+          <i class="fa-solid fa-users me-2">
+          </i>
+          Manage Voters
+         </a>
+        </div>
+        <div class="col-12 col-md-auto">
+         <a class="btn btn-success" href="./elections_list.html?status=active">
+          <i class="fa-solid fa-chart-line me-2">
+          </i>
+          Monitor Active
+         </a>
+        </div>
+        <div class="col-12 col-md-auto">
+         <a class="btn btn-warning text-dark" href="./admin_results.html">
+          <i class="fa-solid fa-chart-column me-2">
+          </i>
+          Publish Results
+         </a>
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- System Activity Chart -->
+     <div class="card mb-4">
+      <div class="card-header">
+       <div class="d-flex align-items-center justify-content-between w-100">
+        <div class="widget-title">
+         System Activity
+        </div>
+        <div class="d-flex align-items-center gap-2">
+         <select class="form-select form-select-sm" id="chartRange" style="width:auto">
+          <option value="7">
+           Last 7 days
+          </option>
+          <option value="14">
+           Last 14 days
+          </option>
+          <option value="30">
+           Last 30 days
+          </option>
+         </select>
+         <button class="btn btn-light btn-sm" id="exportChart">
+          <i class="fa-solid fa-file-arrow-down">
+          </i>
+          Export
+         </button>
+        </div>
+       </div>
+      </div>
+      <div class="card-body">
+       <div class="row g-3">
+        <div class="col-12 col-lg-8">
+         <canvas aria-label="Votes cast chart" height="140" id="activityChart" role="img">
+         </canvas>
+        </div>
+        <div class="col-12 col-lg-4">
+         <ul class="list-group small">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+           Votes cast (period)
+           <span class="badge bg-primary rounded-pill" id="metricVotes">
+            —
+           </span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+           New registrations
+           <span class="badge bg-info rounded-pill" id="metricRegs">
+            —
+           </span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+           Verifications passed
+           <span class="badge bg-success rounded-pill" id="metricVerif">
+            —
+           </span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+           Incidents flagged
+           <span class="badge bg-danger rounded-pill" id="metricIncidents">
+            —
+           </span>
+          </li>
+         </ul>
+        </div>
+       </div>
+      </div>
+     </div>
+     <!-- Active Elections Overview -->
+     <div class="card">
+      <div class="card-header">
+       <div class="d-flex flex-wrap align-items-center justify-content-between w-100 gap-2">
+        <div class="widget-title">
+         Active Elections Overview
+        </div>
+        <div class="d-flex flex-wrap align-items-center gap-2">
+         <div class="input-group input-group-sm" style="width: 260px;">
+          <span class="input-group-text">
+           <i class="fa-solid fa-magnifying-glass">
+           </i>
+          </span>
+          <input aria-label="Search elections" class="form-control" id="searchInput" placeholder="Search by title..." type="search"/>
+         </div>
+         <select class="form-select form-select-sm" id="statusFilter" style="width:auto">
+          <option selected="" value="all">
+           All status
+          </option>
+          <option value="endingSoon">
+           Ending in 24h
+          </option>
+          <option value="lowTurnout">
+           Turnout &lt; 40%
+          </option>
+         </select>
+         <select class="form-select form-select-sm" id="sortSelect" style="width:auto">
+          <option value="title">
+           Sort: Title
+          </option>
+          <option value="endDate">
+           Sort: End Date
+          </option>
+          <option value="turnout">
+           Sort: Turnout
+          </option>
+         </select>
+        </div>
+       </div>
+      </div>
+      <div class="card-body p-0">
+       <div class="p-3" id="tableLoading">
+        <div class="skeleton mb-2" style="height:20px">
+        </div>
+        <div class="skeleton mb-2" style="height:20px">
+        </div>
+        <div class="skeleton mb-2" style="height:20px">
+        </div>
+       </div>
+       <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 table-theme" id="electionsTable" style="display:none">
+         <thead>
+          <tr>
+           <th class="sortable" data-sort-key="title" scope="col">
+            Election Title
+            <i class="fa-solid fa-sort ms-1">
+            </i>
+           </th>
+           <th class="sortable" data-sort-key="endDate" scope="col">
+            End Date
+            <i class="fa-solid fa-sort ms-1">
+            </i>
+           </th>
+           <th scope="col">
+            Turnout
+           </th>
+           <th class="text-end" scope="col">
+            Actions
+           </th>
+          </tr>
+         </thead>
+         <tbody id="electionsTbody">
+          <!-- rows injected by JS -->
+         </tbody>
+        </table>
+       </div>
+      </div>
+      <div class="card-footer d-flex flex-wrap align-items-center justify-content-between gap-2">
+       <div class="small text-muted" id="paginationInfo">
+        Showing — to — of — active elections
+       </div>
+       <nav>
+        <ul class="pagination pagination-sm mb-0" id="pagination">
+         <li class="page-item">
+          <a aria-label="Previous" class="page-link" data-page="prev" href="#">
+           «
+          </a>
+         </li>
+         <li class="page-item">
+          <a class="page-link" data-page="1" href="#">
+           1
+          </a>
+         </li>
+         <li class="page-item">
+          <a class="page-link" data-page="2" href="#">
+           2
+          </a>
+         </li>
+         <li class="page-item">
+          <a class="page-link" data-page="3" href="#">
+           3
+          </a>
+         </li>
+         <li class="page-item">
+          <a aria-label="Next" class="page-link" data-page="next" href="#">
+           »
+          </a>
+         </li>
+        </ul>
+       </nav>
+      </div>
+     </div>
+     <!-- Feedback area -->
+     <div class="alert alert-danger mt-3 d-none" id="errorArea" role="alert">
+      <i class="fa-solid fa-triangle-exclamation me-2">
+      </i>
+      We couldn't load the latest data. Please try again.
+     </div>
+    </div>
+   </main>
+  </div>
+  <!-- Admin Footer with quick actions and legal links -->
+  <footer class="app-footer-admin py-3 mt-auto">
+   <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
+    <div class="mb-2 mb-md-0">
+     <a class="btn btn-outline-secondary btn-sm me-2" href="./election_creation.html">
+      <i class="fa-solid fa-plus me-1">
+      </i>
+      Create Election
+     </a>
+     <a class="btn btn-outline-secondary btn-sm" href="./voter_management.html">
+      <i class="fa-solid fa-users me-1">
+      </i>
+      Manage Voters
+     </a>
+    </div>
+    <div class="d-flex align-items-center">
+     <img alt="Logo" class="me-2" onerror="this.onerror=null;this.src='https://picsum.photos/seed/footer/36/18'" src="https://dsaishared.blob.core.windows.net/uxcceleratecontainer/projects/68bd9542e1229daa603ec466/logos/logo_94009328-59f7-426f-bafe-3182305ed5e5.webp" style="height:18px"/>
+     <small class="me-3">
+      © 2025 FaceID Voting
+     </small>
+     <a class="small me-3" href="./terms.html">
+      Terms
+     </a>
+     <a class="small" href="./privacy.html">
+      Privacy
+     </a>
+    </div>
+   </div>
+  </footer>
+  <!-- Toast Container -->
+  <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer">
+  </div>
+  <!-- Scripts: Bootstrap, Chart.js, SweetAlert2 -->
+  <script crossorigin="anonymous" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js">
+  </script>
+  <script>
+   // Page state and mock data
+const state = {
+    stats: {
+        totalVoters: 0,
+        activeElections: 0,
+        pendingRegistrations: 0
+    },
+    elections: [],
+    filtered: [],
+    pageSize: 6,
+    currentPage: 1,
+    sortKey: 'title',
+    sortDir: 'asc'
+};
+
+// Generate mock elections data
+function seedElections() {
+    const now = new Date();
+    const days = (d) => new Date(now.getTime() + d * 24 * 60 * 60 * 1000);
+    const data = [{
+        id: 'E2025-001',
+        title: 'City Council General Election',
+        endDate: days(2),
+        eligible: 12000,
+        voted: 4580
+    }, {
+        id: 'E2025-002',
+        title: 'School Board Special Runoff',
+        endDate: days(0.6),
+        eligible: 5200,
+        voted: 2450
+    }, {
+        id: 'E2025-003',
+        title: 'Statewide Referendum 12',
+        endDate: days(5),
+        eligible: 80500,
+        voted: 40250
+    }, {
+        id: 'E2025-004',
+        title: 'Mayoral Primary - District 7',
+        endDate: days(1.2),
+        eligible: 23000,
+        voted: 6100
+    }, {
+        id: 'E2025-005',
+        title: 'Transit Authority Board Seats',
+        endDate: days(0.9),
+        eligible: 9200,
+        voted: 2900
+    }, {
+        id: 'E2025-006',
+        title: 'University Senate Election',
+        endDate: days(8),
+        eligible: 7800,
+        voted: 1450
+    }, {
+        id: 'E2025-007',
+        title: 'Community HOA Board',
+        endDate: days(0.3),
+        eligible: 680,
+        voted: 265
+    }, {
+        id: 'E2025-008',
+        title: 'Union Representative Vote',
+        endDate: days(3),
+        eligible: 6400,
+        voted: 3150
+    }, {
+        id: 'E2025-009',
+        title: 'Public Utility Oversight Committee',
+        endDate: days(1.8),
+        eligible: 15700,
+        voted: 5225
+    }, {
+        id: 'E2025-010',
+        title: 'Budget Allocation Survey',
+        endDate: days(4.5),
+        eligible: 120000,
+        voted: 48500
+    }, {
+        id: 'E2025-011',
+        title: 'Parks and Recreation Advisory',
+        endDate: days(0.7),
+        eligible: 4200,
+        voted: 980
+    }, {
+        id: 'E2025-012',
+        title: 'Neighborhood Traffic Calming Plan',
+        endDate: days(6),
+        eligible: 3800,
+        voted: 1320
+    }, ];
+    state.elections = data;
+    state.stats.activeElections = data.length;
+    state.stats.totalVoters = 0;
+    data.forEach(e => state.stats.totalVoters += e.eligible);
+    state.stats.pendingRegistrations = 127; // mock value
+}
+
+function formatDate(d) {
+    const dt = (d instanceof Date) ? d : new Date(d);
+    return dt.toLocaleString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
+
+function pct(voted, eligible) {
+    return eligible ? Math.round((voted / eligible) * 100) : 0;
+}
+
+// Render stats
+function renderStats() {
+    document.getElementById('totalVoters').textContent = state.stats.totalVoters.toLocaleString();
+    document.getElementById('activeElections').textContent = state.stats.activeElections.toLocaleString();
+    document.getElementById('pendingApprovals').textContent = state.stats.pendingRegistrations.toLocaleString();
+}
+
+// Navigate on stat card click
+function wireStatCards() {
+    document.getElementById('cardTotalVoters').addEventListener('click', () => window.location.href = './voter_management.html');
+    document.getElementById('cardActiveElections').addEventListener('click', () => window.location.href = './elections_list.html?status=active');
+    document.getElementById('cardPendingApprovals').addEventListener('click', () => window.location.href = './voter_management.html?status=pending');
+}
+
+// Filters, sorting, paging
+function applyFilters() {
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    const status = document.getElementById('statusFilter').value;
+    let arr = [...state.elections];
+    if (q) arr = arr.filter(x => x.title.toLowerCase().includes(q));
+    const now = new Date();
+    if (status === 'endingSoon') {
+        arr = arr.filter(x => (new Date(x.endDate) - now) <= (24 * 60 * 60 * 1000));
+    } else if (status === 'lowTurnout') {
+        arr = arr.filter(x => pct(x.voted, x.eligible) < 40);
+    }
+    state.filtered = arr;
+    sortData(state.sortKey, state.sortDir);
+}
+
+function sortData(key, dir) {
+    state.sortKey = key;
+    state.sortDir = dir;
+    state.filtered.sort((a, b) => {
+        if (key === 'title') {
+            return dir === 'asc' ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title);
+        }
+        if (key === 'endDate') {
+            return dir === 'asc' ? new Date(a.endDate) - new Date(b.endDate) : new Date(b.endDate) - new Date(a.endDate);
+        }
+        if (key === 'turnout') {
+            const pa = pct(a.voted, a.eligible),
+                pb = pct(b.voted, b.eligible);
+            return dir === 'asc' ? pa - pb : pb - pa;
+        }
+        return 0;
+    });
+    renderTable();
+}
+
+function renderTable(page = 1) {
+    state.currentPage = page;
+    const tbody = document.getElementById('electionsTbody');
+    tbody.innerHTML = '';
+    const start = (page - 1) * state.pageSize;
+    const end = start + state.pageSize;
+    const pageData = state.filtered.slice(start, end);
+    pageData.forEach(e => {
+        const tr = document.createElement('tr');
+        const turnout = pct(e.voted, e.eligible);
+        tr.innerHTML = `
+          <td><span class="fw-semibold">${e.title}</span><div class="small text-muted">ID: ${e.id}</div></td>
+          <td>${formatDate(e.endDate)}</td>
+          <td style="min-width:220px;">
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="flex-grow-1 me-2">
+                <div class="progress" role="progressbar" aria-valuenow="${turnout}" aria-valuemin="0" aria-valuemax="100">
+                  <div class="progress-bar" style="width:${turnout}%"></div>
+                </div>
+              </div>
+              <span class="small text-muted">${e.voted.toLocaleString()} / ${e.eligible.toLocaleString()} (${turnout}%)</span>
+            </div>
+          </td>
+          <td class="text-end">
+            <a href="./election_monitoring.html?id=${encodeURIComponent(e.id)}" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-eye me-1"></i>Monitor</a>
+          </td>`;
+        tbody.appendChild(tr);
+    });
+    // Show table
+    document.getElementById('tableLoading').style.display = 'none';
+    document.getElementById('electionsTable').style.display = '';
+    // Pagination info
+    const total = state.filtered.length;
+    const from = total ? start + 1 : 0;
+    const to = Math.min(end, total);
+    document.getElementById('paginationInfo').textContent = `Showing ${from} to ${to} of ${total} active elections`;
+    updatePaginationControls();
+}
+
+function updatePaginationControls() {
+    const totalPages = Math.max(1, Math.ceil(state.filtered.length / state.pageSize));
+    const pag = document.getElementById('pagination');
+    [...pag.querySelectorAll('li.page-item')].forEach(li => li.classList.remove('active', 'disabled'));
+    // Disable prev/next if needed
+    const prev = pag.querySelector('[data-page="prev"]').parentElement;
+    const next = pag.querySelector('[data-page="next"]').parentElement;
+    if (state.currentPage <= 1) prev.classList.add('disabled');
+    if (state.currentPage >= totalPages) next.classList.add('disabled');
+    // Update numeric buttons (3 shown)
+    const numBtns = [...pag.querySelectorAll('[data-page]')].filter(a => !['prev', 'next'].includes(a.getAttribute('data-page')));
+    const start = Math.max(1, Math.min(state.currentPage - 1, totalPages - 2));
+    numBtns.forEach((a, idx) => {
+        const p = start + idx;
+        a.textContent = p;
+        a.setAttribute('data-page', String(p));
+        if (p === state.currentPage) a.parentElement.classList.add('active');
+        if (p > totalPages) a.parentElement.classList.add('disabled');
+    });
+}
+
+function wireTableControls() {
+    document.getElementById('searchInput').addEventListener('input', () => {
+        applyFilters();
+        renderTable(1);
+    });
+    document.getElementById('statusFilter').addEventListener('change', () => {
+        applyFilters();
+        renderTable(1);
+    });
+    document.getElementById('sortSelect').addEventListener('change', (e) => {
+        const key = e.target.value;
+        const dir = (key === 'title') ? 'asc' : 'asc';
+        sortData(key, dir);
+    });
+    // Header sortable clicks
+    document.querySelectorAll('#electionsTable thead th.sortable').forEach(th => {
+        th.addEventListener('click', () => {
+            const key = th.getAttribute('data-sort-key');
+            const dir = (state.sortKey === key && state.sortDir === 'asc') ? 'desc' : 'asc';
+            state.sortKey = key;
+            state.sortDir = dir;
+            sortData(key, dir);
+            // update sort icon
+            document.querySelectorAll('#electionsTable thead th.sortable i').forEach(i => i.className = 'fa-solid fa-sort ms-1');
+            const icon = th.querySelector('i');
+            icon.className = dir === 'asc' ? 'fa-solid fa-sort-up ms-1' : 'fa-solid fa-sort-down ms-1';
+        });
+    });
+    // Pagination
+    document.getElementById('pagination').addEventListener('click', (e) => {
+        const a = e.target.closest('a[data-page]');
+        if (!a) return;
+        e.preventDefault();
+        const totalPages = Math.max(1, Math.ceil(state.filtered.length / state.pageSize));
+        const p = a.getAttribute('data-page');
+        if (p === 'prev' && state.currentPage > 1) return renderTable(state.currentPage - 1);
+        if (p === 'next' && state.currentPage < totalPages) return renderTable(state.currentPage + 1);
+        const num = parseInt(p, 10);
+        if (!isNaN(num)) renderTable(num);
+    });
+}
+
+// Bootstrap toast helper
+function showToast(title, body, bg = 'bg-primary') {
+    const id = 't' + Date.now();
+    const el = document.createElement('div');
+    el.className = `toast align-items-center text-white ${bg}`;
+    el.id = id;
+    el.setAttribute('role', 'status');
+    el.setAttribute('aria-live', 'polite');
+    el.setAttribute('aria-atomic', 'true');
+    el.innerHTML = `
+        <div class="d-flex">
+          <div class="toast-body">
+            <strong class="me-2">${title}</strong>${body}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>`;
+    document.getElementById('toastContainer').appendChild(el);
+    const t = new bootstrap.Toast(el, {
+        delay: 2600
+    });
+    t.show();
+}
+
+// SweetAlert2 usage for Create Election
+function wireQuickActions() {
+    document.getElementById('btnCreateElection').addEventListener('click', () => {
+        Swal.fire({
+            title: 'Create new election?',
+            text: 'You will be redirected to the election setup wizard.',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Proceed',
+            cancelButtonText: 'Cancel',
+            confirmButtonColor: '#6144a6'
+        }).then(res => {
+            if (res.isConfirmed) window.location.href = './election_creation.html';
+        });
+    });
+}
+
+// System Activity Chart
+let chart;
+
+function randSeries(n, base = 1000) {
+    return Array.from({
+        length: n
+    }, () => Math.round(base + (Math.random() - 0.5) * base * 0.2));
+}
+
+function buildChart(days = 7) {
+    const ctx = document.getElementById('activityChart');
+    const labels = Array.from({
+        length: days
+    }, (_, i) => {
+        const d = new Date();
+        d.setDate(d.getDate() - (days - 1 - i));
+        return d.toLocaleDateString(undefined, {
+            month: 'short',
+            day: 'numeric'
+        });
+    });
+    const votes = randSeries(days, 2000);
+    const regs = randSeries(days, 220);
+    const verif = randSeries(days, 210);
+    const incidents = randSeries(days, 6);
+    if (chart) chart.destroy();
+    chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [{
+                label: 'Votes cast',
+                data: votes,
+                borderColor: '#6144a6',
+                backgroundColor: 'rgba(97,68,166,.12)',
+                fill: true,
+                tension: .3,
+                pointRadius: 2
+            }, {
+                label: 'Registrations',
+                data: regs,
+                borderColor: '#0099D2',
+                backgroundColor: 'rgba(0,153,210,.10)',
+                fill: true,
+                tension: .3,
+                pointRadius: 2
+            }, {
+                label: 'Verifications',
+                data: verif,
+                borderColor: '#00774E',
+                backgroundColor: 'rgba(0,119,78,.10)',
+                fill: true,
+                tension: .3,
+                pointRadius: 2
+            }, {
+                label: 'Incidents',
+                data: incidents,
+                borderColor: '#CD2026',
+                backgroundColor: 'rgba(205,32,38,.08)',
+                fill: true,
+                tension: .3,
+                pointRadius: 2,
+                yAxisID: 'y1'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0,0,0,.06)'
+                    }
+                },
+                y1: {
+                    beginAtZero: true,
+                    position: 'right',
+                    grid: {
+                        drawOnChartArea: false
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false
+                }
+            },
+            interaction: {
+                mode: 'index',
+                intersect: false
+            }
+        }
+    });
+    document.getElementById('metricVotes').textContent = votes.reduce((a, b) => a + b, 0).toLocaleString();
+    document.getElementById('metricRegs').textContent = regs.reduce((a, b) => a + b, 0).toLocaleString();
+    document.getElementById('metricVerif').textContent = verif.reduce((a, b) => a + b, 0).toLocaleString();
+    document.getElementById('metricIncidents').textContent = incidents.reduce((a, b) => a + b, 0).toLocaleString();
+}
+
+function wireChartControls() {
+    document.getElementById('chartRange').addEventListener('change', (e) => buildChart(parseInt(e.target.value, 10)));
+    document.getElementById('exportChart').addEventListener('click', () => {
+        const a = document.createElement('a');
+        a.href = chart.toBase64Image('image/png', 1);
+        a.download = 'system-activity.png';
+        a.click();
+    });
+}
+
+// Refresh button behavior
+function wireRefresh() {
+    document.getElementById('refreshBtn').addEventListener('click', () => {
+        showToast('Refreshing', 'Fetching latest stats and activity...', 'bg-info');
+        document.getElementById('tableLoading').style.display = '';
+        document.getElementById('electionsTable').style.display = 'none';
+        setTimeout(() => {
+            applyFilters();
+            renderTable(state.currentPage);
+            showToast('Updated', 'Dashboard data refreshed successfully.', 'bg-success');
+        }, 800);
+    });
+}
+
+// Notifications bell demo
+function wireNotifications() {
+    document.getElementById('notifBell').addEventListener('click', (e) => {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Notifications',
+            html: '<div class="text-start">\
+          <div class="mb-2"><i class="fa-solid fa-signal me-2 text-success"></i>3 elections are performing normally.</div>\
+          <div class="mb-2"><i class="fa-solid fa-triangle-exclamation me-2 text-warning"></i>1 election ending in the next 12 hours.</div>\
+          <div><i class="fa-solid fa-user-check me-2 text-info"></i>5 new voter registrations pending approval.</div></div>',
+            icon: 'info',
+            confirmButtonColor: '#6144a6'
+        });
+    });
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', () => {
+    seedElections();
+    renderStats();
+    wireStatCards();
+    wireQuickActions();
+    wireTableControls();
+    applyFilters();
+    setTimeout(() => renderTable(1), 500); // simulate loading delay
+    buildChart(7);
+    wireChartControls();
+    wireRefresh();
+    wireNotifications();
+});
+  </script>
+  <!-- Inline component styles from common components to preserve consistency on all pages -->
+  <style>
+   :root { --primary-color:#6144a6; --secondary-color:#ffffff; --hover-bg: rgba(97,68,166,.08); --active-bg: rgba(97,68,166,.14); }
+    .app-header-admin{background:#6144a6;color:#fff}
+    .app-header-admin .navbar-brand,.app-header-admin .nav-link,.app-header-admin .dropdown-toggle{color:#fff}
+    .app-header-admin .form-control:focus{box-shadow:none;border-color:#ddd}
+    .notif-dot{position:absolute;top:.25rem;right:.25rem;width:.5rem;height:.5rem;background:#dc3545;border-radius:50%}
+    .app-footer-admin{background:#f8f9fa;border-top:1px solid #eee;color:#555}
+    .app-footer-admin a{color:#6144a6;text-decoration:none}
+    .app-footer-admin a:hover{text-decoration:underline}
+    .app-sidebar-admin{width:260px;background:#fff;border-right:1px solid #eee;min-height:100vh}
+    .app-sidebar-admin .brand{border-bottom:1px solid #eee}
+    .app-sidebar-admin .nav-link{color:#444;border-radius:.35rem;padding:.5rem .75rem}
+    .app-sidebar-admin .nav-link .fa-fw{width:1.25rem}
+    .app-sidebar-admin .nav-link:hover{background:var(--hover-bg)}
+    .app-sidebar-admin .nav-link.active{background:var(--active-bg);border-left:4px solid var(--primary-color)}
+    .app-sidebar-admin .section-title{font-size:.72rem;letter-spacing:.08em;color:#888}
+    .app-sidebar-admin .submenu .nav-link{padding-left:2rem}
+    @media (max-width: 991.98px){ .app-sidebar-admin{display:none;} .app-sidebar-admin.collapse{display:block;} }
+  </style>
+ </body>
+</html>
